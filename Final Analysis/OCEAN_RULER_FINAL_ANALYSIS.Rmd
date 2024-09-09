@@ -1,0 +1,836 @@
+---
+title: "FINAL OCEAN RULER ANALYSIS 9/25/2023"
+author: "Jack Elstner"
+date: "9/25/2023"
+output: pdf_document
+---
+
+**Introduction:** The purpose of this analyses is to evaluate the performance of Ocean Ruler, an electronic monitoring and reporting platform developed by The Nature Conservancy to aid in fisheries science and management.This web-based platform uses open-source computer vision and digital edge detection algorithms to automatically estimate sizes of fish or invertebrate specimens from pictures submitted by users. These algorithms use reference objects of known size in an image to generate size estimates of the target object. We designed the software to measure total length or total width of specimens using pictures submitted from phone or tablet-based web browsers. Once a user collects a specimen, they can upload a picture to Ocean Ruler, which generates an initial length or width estimate. If the initial estimate looks inaccurate or appears to be using incorrect reference points, the user is given the opportunity to manually adjust the measurement to increase estimate accuracy. The image, along with initial and user-adjusted size calculations, are then uploaded to a cloud-based repository where they are stored for future review and analysis.
+
+In this analysis, we quantify Ocean Ruler performance using data collected from software validation efforts conducted throughout California and Baja California, Mexico. Here, we characterize the accuracy and precision of species-specific sizing algorithms and explore factors that influence software performance. Key research questions include:
+
+1. How does length estimate accuracy and precision vary across different fisheries?
+
+2. To what degree does making manual corrections improve length estimates?
+
+3. Does the size of the specimen being measured influence length estimate quality?
+
+4. What factors contribute to poor software performance (e.g. size of specimen, species, software user, camera type, image characteristics)
+
+5. Does the user of the Poseidon tool influence length estimate quality? In other words, do some Poseidon users generate better length estimates than others?
+
+```{r}
+# install cmdstanr
+install.packages("cmdstanr", repos = c('https://stan-dev.r-universe.dev', getOption("repos")))
+
+# installing the rethinking package
+install.packages(c("coda","mvtnorm","devtools"))
+library(devtools)
+devtools::install_github("rmcelreath/rethinking",ref="Experimental")
+
+# load necessary packages for this script
+library(rethinking)
+library(ggplot2)
+library(reshape)
+library(gridExtra)
+
+```
+
+**Step 1: Exploring Variability across Users**
+
+First, using the data sets involving multiple software users (i.e. finfish, abalone, pen shell) , we  construct a series of candidate models that evaluate whether there is a common bias and precision across software users, or if there is evidence of user-specific bias and precision that need to be accounted for. We will then use information criteria (WAIC) to determine which model has the best predictive capacity. 
+
+
+This chunk of code reads in the finfish data and performs necessary data cleaning.
+```{r}
+library(rethinking)
+
+# read in cleaned finfish data
+finfish.all <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/CaliforniaFinfish_March2_Merged&Cleaned.csv")
+
+finfish <- subset(finfish.all, Include == "yes")
+
+# read in angler hand meaasurements
+AnglerHandMeasurements <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/AnglerHandMeasurements.csv")
+
+finfish <- merge(finfish, AnglerHandMeasurements, by = c("AnglerID", "TagID"))
+
+# add fish species index variable
+finfish$SpeciesID <- as.integer(as.factor(finfish$Species))
+
+# add FishID.b index variable
+finfish$FishID.b <- as.integer(as.factor(finfish$TagID))
+
+# create AnglerNumber variable that reassigns an angler number giving angler a number 1 through 9
+finfish$AnglerNumber <- as.integer(as.factor(finfish$AnglerID))
+
+mean(finfish$Algorithm_Total_Error_mm)
+mean(finfish$Adjusted_Total_Error_mm)
+```
+
+in this chunk of code, we fit our finfish software user candidate models and perform model comparison
+```{r}
+# make z-score function
+zScore <- function(x) {
+  result <- (x - mean(x))/sd(x)
+  return(result)
+}
+# make list
+finfish.list <- list(
+Angler = finfish$AnglerNumber,
+TotalError = zScore(finfish$Algorithm_Total_Error_mm))
+
+set.seed(112)
+# common bias, common variance
+model1.finfish <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma),
+    mu ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = finfish.list, chains = 4, log_lik = TRUE 
+)
+
+# user-specific bias, common variance
+model2.finfish <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Angler], sigma),
+    mu[Angler] ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = finfish.list, chains = 4, log_lik = TRUE 
+)
+
+
+# common bias, user-specific variance
+model3.finfish <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma[Angler]),
+    mu ~ dnorm(0, 2),
+    sigma[Angler] ~ dexp(1)
+  ), data = finfish.list, chains = 4, log_lik = TRUE 
+)
+
+# user-specific bias, user-specific variance
+model4.finfish <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Angler], sigma[Angler]),
+    mu[Angler] ~ dnorm(0, 2),
+    sigma[Angler] ~ dexp(1)
+  ), data = finfish.list, chains = 4, log_lik = TRUE 
+)
+
+modelcomparison.finfish <- compare(model1.finfish, model2.finfish, model3.finfish, model4.finfish)
+modelcomparison.finfish
+
+traceplot_ulam(model4.finfish)
+
+# comparing WAIC scores across candidate models demonstrates that model 1 significantly outperforms the rest
+
+```
+
+this code chunk performs the same analysis, but for abalone. for the abalone dataset, we fit models using error associated with both original and adjusted estimates, because users participated in all facets of software use (e.g., photographed specimen, generated initial estimate, and manually corrected initial estimate if necessary).
+
+abalone original software estimate models 
+```{r}
+abalone <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/AbaloneCleanedJanuary2023.csv")
+
+abalone <- subset(abalone, Include == "yes")
+
+table(abalone$User_ID) # good - each participant measured each abalone (pretty much)
+
+# make list
+abalone.list <- list(
+Participant = abalone$User_ID,
+TotalError = zScore(abalone$Algorithm_Total_Error_mm))
+
+set.seed(112)
+
+model1.abaloneO <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma),
+    mu ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+
+# user-specific bias, common variance
+model2.abaloneO <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Participant], sigma),
+    mu[Participant] ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+
+# common bias, user-specific variance
+model3.abaloneO <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma[Participant]),
+    mu ~ dnorm(0, 2),
+    sigma[Participant] ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+# user-specific bias, user-specific variance
+model4.abaloneO <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Participant], sigma[Participant]),
+    mu[Participant] ~ dnorm(0, 2),
+    sigma[Participant] ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+compare(model1.abaloneO, model2.abaloneO, model3.abaloneO, model4.abaloneO)
+# WAIC scores again suggest that bias and precision are shared across users
+```
+
+
+abalone adjusted software estimate models 
+```{r}
+abalone <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/AbaloneCleanedJanuary2023.csv")
+
+abalone <- subset(abalone, Include == "yes")
+
+table(abalone$User_ID) # good - each participant measured each abalone (pretty much)
+
+# make list
+abalone.list <- list(
+Participant = abalone$User_ID,
+TotalError = zScore(abalone$Adjusted_Total_Error_mm))
+
+set.seed(112)
+
+model1.abaloneA <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma),
+    mu ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+
+# user-specific bias, common variance
+model2.abaloneA <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Participant], sigma),
+    mu[Participant] ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+
+# common bias, user-specific variance
+model3.abaloneA <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma[Participant]),
+    mu ~ dnorm(0, 2),
+    sigma[Participant] ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+# user-specific bias, user-specific variance
+model4.abaloneA <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Participant], sigma[Participant]),
+    mu[Participant] ~ dnorm(0, 2),
+    sigma[Participant] ~ dexp(1)
+  ), data = abalone.list, chains = 4, log_lik = TRUE 
+)
+
+compare(model1.abaloneA, model2.abaloneA, model3.abaloneA, model4.abaloneA)
+# WAIC scores again suggest that bias and precision are shared across users
+```
+
+
+this code chunk performs the same analysis, but for pen shell
+```{r}
+penshell <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/Penshell_Cleaned_January2023.csv")
+penshell <- subset(penshell, Included == "yes")
+penshell <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+table(penshell$User_ID) # good - each participant measured each abalone (pretty much)
+
+# make list
+penshell.list <- list(
+Participant = penshell$User_ID,
+TotalError = zScore(penshell$Adjusted_Total_Error_mm)) # this time used adjusted total error
+
+set.seed(112)
+
+model1.penshell <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma),
+    mu ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = penshell.list, chains = 4, log_lik = TRUE 
+)
+
+# user-specific bias, common variance
+model2.penshell <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Participant], sigma),
+    mu[Participant] ~ dnorm(0, 2),
+    sigma ~ dexp(1)
+  ), data = penshell.list, chains = 4, log_lik = TRUE 
+)
+
+
+# common bias, user-specific variance
+model3.penshell <- ulam(
+  alist(
+    TotalError ~ dnorm(mu, sigma[Participant]),
+    mu ~ dnorm(0, 2),
+    sigma[Participant] ~ dexp(1)
+  ), data = penshell.list, chains = 4, log_lik = TRUE 
+)
+
+# user-specific bias, user-specific variance
+model4.penshell <- ulam(
+  alist(
+    TotalError ~ dnorm(mu[Participant], sigma[Participant]),
+    mu[Participant] ~ dnorm(0, 2),
+    sigma[Participant] ~ dexp(1)
+  ), data = penshell.list, chains = 4, log_lik = TRUE 
+)
+
+compare(model1.penshell, model2.penshell, model3.penshell, model4.penshell)
+# WAIC scores again suggest that bias and precision are shared across users
+
+```
+
+this code chunk makes a plot displaying variability in total error across users
+```{r}
+library(ggplot2)
+library(ggpubr)
+
+# abalone users plot (algorithm)
+abalone.alg.plot = ggplot(dat=abalone,
+      aes(x=User_ID, 
+      y=Algorithm_Total_Error_mm,
+      group = User_ID)) +
+  geom_violin(color = "black", fill = "purple") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Deviation from True Size (mm)")+
+  ggtitle("Red Abalone") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+abalone.alg.plot = abalone.alg.plot + geom_boxplot(width = 0.1, color = "black", fill = "transparent", alpha = 0.5, position = position_dodge(0.9), outlier.shape = NA) + theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+
+# abalone users plot (adjusted)
+abalone.adj.plot = ggplot(dat=abalone,
+      aes(x=User_ID, 
+      y=Adjusted_Total_Error_mm,
+      group = User_ID)) +
+  geom_violin(color = "black", fill = "green") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Deviation from True Size (mm)")+
+  ggtitle("Red Abalone") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+abalone.adj.plot = abalone.adj.plot + geom_boxplot(width = 0.1, color = "black", fill = "transparent", alpha = 0.5, position = position_dodge(0.9), outlier.shape = NA) + theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+
+
+# finfish users plot (algorithm)
+finfish.alg.plot = ggplot(dat=finfish,
+        aes(x=AnglerNumber, 
+          y=New_Algorithm_Total_Error_mm,
+          group = AnglerID)) +
+  geom_violin(color = "black", fill = "purple") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Deviation from True Size (mm)")+
+  ggtitle("Finfish") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+finfish.alg.plot = finfish.alg.plot + geom_boxplot(width = 0.1, color = "black", fill = "transparent", alpha = 0.5, position = position_dodge(0.9), outlier.shape = NA) + theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+
+
+# finfish users plot (adjusted)
+finfish.adj.plot = ggplot(dat=finfish,
+        aes(x=AnglerNumber, 
+          y=New_Adjusted_Total_Error_mm,
+          group = AnglerNumber)) +
+  geom_violin(color = "black", fill = "green") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Deviation from True Size (mm)")+
+  ggtitle("Finfish") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+finfish.adj.plot = finfish.adj.plot + geom_boxplot(width = 0.1, color = "black", fill = "transparent", alpha = 0.5, position = position_dodge(0.9), outlier.shape = NA) + theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+
+
+# penshell users plot (algorithm)
+penshell.alg.plot = ggplot(dat=penshell,
+      aes(x=User_ID, 
+          y=Algorithm_Total_Error_mm,
+          group = User_ID)) +
+  geom_violin(color = "black", fill = "purple") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Deviation from True Size (mm)")+
+  ggtitle("Pen Shell") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+penshell.alg.plot = penshell.alg.plot + geom_boxplot(width = 0.1, color = "black", fill = "transparent", alpha = 0.5, position = position_dodge(0.9), outlier.shape = NA) + theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+
+# penshell users plot (adjusted)
+penshell.adj.plot = ggplot(dat=penshell,
+      aes(x=User_ID, 
+          y=Adjusted_Total_Error_mm,
+          group = User_ID)) +
+  geom_violin(color = "black", fill = "green") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Deviation from True Size (mm)")+
+  ggtitle("Pen Shell") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+penshell.adj.plot = penshell.adj.plot + geom_boxplot(width = 0.1, color = "black", fill = "transparent", alpha = 0.5, position = position_dodge(0.9), outlier.shape = NA) + theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+
+user_figure <- ggarrange(abalone.alg.plot, finfish.alg.plot, penshell.alg.plot,
+                         abalone.adj.plot, finfish.adj.plot, penshell.adj.plot,
+          nrow=2,
+          ncol=3)
+user_figure
+
+ggsave("VariabilityAcrossUsers.pdf", user_figure, width = 8, height = 6, dpi = 300)
+```
+
+
+
+
+
+
+**Step 2: Finfish Analysis**
+
+**Finfish Model** Because the finfish dataset included multiple Ocean Ruler estimates and multiple hand measurements of each fish specimen, this provided an opportunity to explicitly model software bias/precision and compare software performance to that of conventional hand measurements. In our model formulation, we asserted that hand measurements (H) of a given specimen are normally distributed without bias around some true size of a fish. We also assumed that Ocean Ruler size estimates (both original estimates, O, and user-adjusted estimates, A) are normally distributed around some true size of a fish, but are distributed with bias that is parameterized in our model.
+
+```{r}
+
+# calculate mean and sd across all hand measurements and estimates
+# this will be used to z-score data prior to model fitting
+x_bar <- mean(c(finfish$Angler_Hand_Measurement_TL_mm, finfish$Algorithm_Estimate_mm, finfish$Adjusted_Estimate_mm))
+sd_bar <- sd(c(finfish$Angler_Hand_Measurement_TL_mm, finfish$Algorithm_Estimate_mm, finfish$Adjusted_Estimate_mm))
+
+datZ <- list(
+  H = (finfish$Angler_Hand_Measurement_TL_mm - x_bar)/sd_bar,
+  O = (finfish$Algorithm_Estimate_mm - x_bar)/sd_bar, 
+  A = (finfish$Adjusted_Estimate_mm - x_bar)/sd_bar,
+  FishID = finfish$FishID.b,  
+  AnglerID = finfish$AnglerNumber
+)
+
+set.seed(998)
+
+# fit model
+Finfish.model <- ulam(
+  alist(
+    TrueSize[FishID] ~ dnorm(0, 2),
+    H ~ dnorm(TrueSize[FishID], Hsig), # board measurements are distributed without bias around the true measurement of a fish 
+    O ~ dnorm((TrueSize[FishID] + O_Bias), Osig), # original Ocean Ruler estimates are distributed with some bias around the true measurement of a fish
+    A ~ dnorm((TrueSize[FishID] + A_Bias), Asig), # adjusted Ocean Ruler estimates are distributed with some bias around the true measurement of a fish
+    
+    # define bias parameters
+    O_Bias ~ dnorm(0, 2), 
+    A_Bias ~ dnorm(0, 2), 
+    
+    # variance priors
+    Hsig ~ dexp(1),
+    Osig ~ dexp(1),
+    Asig ~ dexp(1)
+  ), data = datZ, chains = 4, iter = 4000, warmup=2000
+)
+
+# inspect summary of posterior
+precis(Finfish.model, prob = 0.95, depth = 2)
+
+# sample from the posterior
+FishPost <- extract.samples(Finfish.model, n = 10000)
+
+# evaluating convergence
+# traceplot_ulam(FishPost) # traceplots look good
+precis(Finfish.model, depth=2) # R_hat looks good
+
+# calculate MAP and 95% HPDI for bias terms 
+
+# MAP
+round((chainmode(FishPost$O_Bias)*sd_bar), digits = 1) # 23.3 mm
+round((chainmode(FishPost$A_Bias)*sd_bar), digits = 1)# 35.9 mm
+
+round(median(FishPost$O_Bias)*sd_bar, digits = 1) # 23.7mm
+round(median(FishPost$A_Bias)*sd_bar, digits = 1) # 35.9mm
+
+# 95% HPDI
+round((HPDI(FishPost$O_Bias, prob = 0.95)*sd_bar), digits = 1) # O_Bias = [18.0, 29.3]
+round((HPDI(FishPost$A_Bias, prob = 0.95)*sd_bar), digits = 1) # A_Bias = [33.3, 38.6]
+
+# Bias plot
+library(ggplot2)
+library(ggpubr)
+library(reshape)
+
+# extract bias terms across all Anglers and convert from z-score to mm
+FishBias.mm <- data.frame(
+  FishPost$O_Bias*sd_bar,
+  FishPost$A_Bias*sd_bar
+)
+
+Names <- c("Algorithm", "Adjusted")
+names(FishBias.mm) <- Names
+FishBias.mm <- melt(FishBias.mm)
+names2 <- c("Measurement", "Bias")
+names(FishBias.mm) <- names2
+# make plot that overlays posterior densities of bias estimates
+cols <- c("purple", "green")
+BiasPlot = ggplot(data = FishBias.mm, aes(x=Bias, fill=Measurement)) +
+  geom_density(alpha=1) +
+  labs(y = "Posterior Density", x = "Software Bias (mm)", title = "(a)") +
+  scale_fill_manual(values = cols) +
+  theme_bw()
+  
+BiasPlot = BiasPlot + xlim(0, 100)
+BiasPlot
+# Variance Plot
+FishVariance.mm <- data.frame(
+  FishPost$Osig*sd_bar,
+  FishPost$Asig*sd_bar,
+  FishPost$Hsig*sd_bar
+)
+
+Names <- c("Initial", "Adjusted", "Length Board")
+names(FishVariance.mm) <- Names
+FishVariance.mm <- melt(FishVariance.mm)
+names2 <- c("Measurement", "Variance")
+names(FishVariance.mm) <- names2
+
+cols <- c("purple", "green", "gray")
+
+# create density plots of variance estimates across fisheries
+VariancePlot = ggplot(data = FishVariance.mm, aes(x=Variance, fill=Measurement)) +
+  geom_density(alpha=1) +
+  labs(y = "Posterior Density", x = "Software Variance", title = "(b)") +
+  scale_fill_manual(values = cols) + 
+  theme_bw()
+
+VariancePlot = VariancePlot + xlim(0, 100)
+
+VariancePlot
+
+FinfishVarBiasPlot <- ggarrange(BiasPlot, VariancePlot, nrow = 2, ncol = 1)
+
+FinfishVarBiasPlot
+
+ggsave("FinfishVarBiasPlot.pdf", FinfishVarBiasPlot, width = 8, height = 6, dpi = 300)
+```
+
+
+In this code chunk, we extract the modeled true size estimates from the Finfish Model for each fish and use these values to re-calculate total error and percent error metrics for finfish
+```{r}
+# here, we create a vector with the model-derived length estimates for each fish
+# then, we add model.derived estimates to main finfish data frame
+ModelLengths.mm <- numeric()
+for(i in 1:40) {
+  ModelLengths.mm <- c(ModelLengths.mm, (round(chainmode(FishPost$TrueSize[ , i]), digits = 2)))
+}
+
+# transform from z-score to length measurements in mm
+#ModelLengths.mm <- (ModelLengths.z*sd(finfish$Angler_Hand_Measurement_TL_mm)) + mean(finfish$Angler_Hand_Measurement_TL_mm)
+#ModelLengths.mm
+# make data frame with FishID.b and model-derived True Size Estimates
+FishID.b <- 1:40
+
+ModeledLengths.df <- data.frame(FishID.b, ModelLengths.mm)
+
+# merge modeled lengths estimates into main finfish data frame
+finfish <- merge(finfish, ModeledLengths.df, by = "FishID.b")
+
+# re-calculate Total Error and Percent Error Metrics
+finfish$Modeled_Algorithm_Total_Error_mm <- finfish$Algorithm_Estimate_mm - finfish$ModelLengths.mm
+finfish$Modeled_Adjusted_Total_Error_mm <- finfish$Adjusted_Estimate_mm - finfish$ModelLengths.mm
+finfish$Modeled_Algorithm_Percent_Error <- (finfish$New_Algorithm_Total_Error_mm/finfish$ModelLengths.mm)*100
+finfish$Modeled_Adjusted_Percent_Error <- (finfish$New_Adjusted_Total_Error_mm/finfish$ModelLengths.mm)*100
+
+write.csv(finfish,file='/Users/kirstenelstner/Desktop/finfish_model_lengths.csv')
+```
+
+
+```{r}
+# finfish data phenomenon figure
+library(ggplot2)
+InitialError <- finfish$Algorithm_Total_Error_mm
+AdjustedError <- finfish$Adjusted_Total_Error_mm
+
+df <- data.frame(Group = rep(c("Initial", "Adjusted"), each = length(InitialError)), 
+                 Value = c(InitialError, AdjustedError))
+
+df$Group <- factor(df$Group, levels = c("Initial", "Adjusted"))
+
+cols <- c("purple", "green")
+
+ggplot(df, aes(x = Group, y = Value, fill = Group)) +
+  geom_boxplot() +
+  labs(
+       x = "Software Estimate Type",
+       y = "Deviation from True Size (mm)") +
+   scale_fill_manual(values = cols) +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+
+
+
+
+
+**Step 3: Exploring Measurement Error Across other Fisheries**
+
+```{r}
+# import data for all fisheries and only include yes data
+abalone <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/AbaloneCleanedJanuary2023.csv")
+abalone <- subset(abalone, Include == "yes")
+
+# this finfish data includes single scientist hand measured lengths hand measured lengths (not modeled lengths)
+finfish <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/finfish_model_lengths.csv")
+
+lobster <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/CaliforniaSpinyLobster_Cleaned_Jan2023.csv")
+lobster <- subset(lobster, Include == "yes")
+
+penshell <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/Penshell_Cleaned_January2023.csv")
+penshell <- subset(penshell, Included == "yes")
+penshell <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+# make list
+all_fisheries_list <- list(
+  AbaloneOD = abalone$Algorithm_Total_Error_mm,
+  AbaloneAD = abalone$Adjusted_Total_Error_mm,
+  FinfishOD = finfish$Algorithm_Total_Error_mm,
+  FinfishAD = finfish$Adjusted_Total_Error_mm,
+  LobsterOD = lobster$Algorithm_Total_Error_mm,
+  LobsterAD = lobster$Adjusted_Total_Error_mm,
+  PenshellOD = penshell$Algorithm_Total_Error_mm,
+  PenshellAD = penshell$Adjusted_Total_Error_mm)
+
+
+
+set.seed(111)
+
+model.all <- ulam(
+  alist(
+    # abalone
+    AbaloneOD ~ dnorm(mu_AOD, sig_AOD),
+    AbaloneAD ~ dnorm(mu_AAD, sig_AAD),
+    mu_AOD ~ dnorm(0, 2),
+    mu_AAD ~ dnorm(0, 2),
+    sig_AOD ~ dexp(1),
+    sig_AAD ~ dexp(1),
+    
+    # finfish
+    FinfishOD ~ dnorm(mu_FOD, sig_FOD),
+    FinfishAD ~ dnorm(mu_FAD, sig_FAD),
+    mu_FOD ~ dnorm(0, 2),
+    mu_FAD ~ dnorm(0, 2),
+    sig_FOD ~ dexp(1),
+    sig_FAD ~ dexp(1),
+    
+    # lobster
+    LobsterOD ~ dnorm(mu_LOD, sig_LOD),
+    LobsterAD ~ dnorm(mu_LAD, sig_LAD),
+    mu_LOD ~ dnorm(0, 2),
+    mu_LAD ~ dnorm(0, 2),
+    sig_LOD ~ dexp(1),
+    sig_LAD ~ dexp(1),
+    
+    # penshell
+    PenshellOD ~ dnorm(mu_POD, sig_POD),
+    PenshellAD ~ dnorm(mu_PAD, sig_PAD),
+    mu_POD ~ dnorm(0, 2),
+    mu_PAD ~ dnorm(0, 2),
+    sig_POD ~ dexp(1),
+    sig_PAD ~ dexp(1)
+    
+  ), data = all_fisheries_list, chains = 4)
+
+
+# extract samples from posterior
+
+Post.all <- extract.samples(model.all, n=10000)
+
+precis(model.all, prob = 0.95, depth = 2)
+
+```
+
+This second model does the same thing, but for percent error.
+
+```{r}
+# import data for all fisheries and only include yes data
+abalone <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/AbaloneCleanedJanuary2023.csv")
+abalone <- subset(abalone, Include == "yes")
+
+# this finfish data has been updated to incorporate modeled lengths 
+finfish <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/finfish_model_lengths.csv")
+
+lobster <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/CaliforniaSpinyLobster_Cleaned_Jan2023.csv")
+lobster <- subset(lobster, Include == "yes")
+
+penshell <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/Penshell_Cleaned_January2023.csv")
+penshell <- subset(penshell, Included == "yes")
+penshell <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+# make list
+all_fisheries_list.percent <- list(
+  AbaloneOD = abalone$Algorithm_Percent_Error,
+  AbaloneAD = abalone$Adjusted_Percent_Error,
+  FinfishOD = finfish$Algorithm_Percent_Error,
+  FinfishAD = finfish$Adjusted_Percent_Error,
+  LobsterOD = lobster$Algorithm_Percent_Error,
+  LobsterAD = lobster$Adjusted_Percent_Error,
+  PenshellOD = penshell$Algorithm_Percent_Error,
+  PenshellAD = penshell$Adjusted_Percent_Error)
+
+set.seed(111)
+
+model.all.percent <- ulam(
+  alist(
+    # abalone
+    AbaloneOD ~ dnorm(mu_AOD, sig_AOD),
+    AbaloneAD ~ dnorm(mu_AAD, sig_AAD),
+    mu_AOD ~ dnorm(0, 2),
+    mu_AAD ~ dnorm(0, 2),
+    sig_AOD ~ dexp(1),
+    sig_AAD ~ dexp(1),
+    
+    # finfish
+    FinfishOD ~ dnorm(mu_FOD, sig_FOD),
+    FinfishAD ~ dnorm(mu_FAD, sig_FAD),
+    mu_FOD ~ dnorm(0, 2),
+    mu_FAD ~ dnorm(0, 2),
+    sig_FOD ~ dexp(1),
+    sig_FAD ~ dexp(1),
+    
+    # lobster
+    LobsterOD ~ dnorm(mu_LOD, sig_LOD),
+    LobsterAD ~ dnorm(mu_LAD, sig_LAD),
+    mu_LOD ~ dnorm(0, 2),
+    mu_LAD ~ dnorm(0, 2),
+    sig_LOD ~ dexp(1),
+    sig_LAD ~ dexp(1),
+    
+    # penshell
+    PenshellOD ~ dnorm(mu_POD, sig_POD),
+    PenshellAD ~ dnorm(mu_PAD, sig_PAD),
+    mu_POD ~ dnorm(0, 2),
+    mu_PAD ~ dnorm(0, 2),
+    sig_POD ~ dexp(1),
+    sig_PAD ~ dexp(1)
+    
+  ), data = all_fisheries_list.percent, chains = 4)
+
+
+# extract samples from posterior
+set.seed(111)
+
+Post.all.percent <- extract.samples(model.all, n=10000)
+
+precis(model.all.percent, prob = 0.95, depth = 2)
+
+
+```
+
+
+This code chunk creates a figure illustrating total error and percent error across all fisheries and measurement types. 
+```{r}
+# the data frame I make here represents the final data (after estimates have been excluded)
+Total_Error_mm <- c(
+  abalone$Algorithm_Total_Error_mm,
+  abalone$Adjusted_Total_Error_mm,
+  finfish$Algorithm_Total_Error_mm,
+  finfish$Adjusted_Total_Error_mm,
+  lobster$Algorithm_Total_Error_mm,
+  lobster$Adjusted_Total_Error_mm,
+  penshell$Algorithm_Total_Error_mm,
+  penshell$Adjusted_Total_Error_mm
+)
+
+  Percent_Error <- c(
+  abalone$Algorithm_Percent_Error,
+  abalone$Adjusted_Percent_Error,
+  finfish$Algorithm_Percent_Error_mm,
+  finfish$Adjusted_Percent_Error_mm,
+  lobster$Algorithm_Percent_Error,
+  lobster$Adjusted_Percent_Error,
+  penshell$Algorithm_Percent_Error,
+  penshell$Adjusted_Percent_Error
+)
+
+
+Estimate_Type <- c(rep("Initial", 542), 
+                   rep("Adjusted", 542),
+                   rep("Initial", 299),
+                   rep("Adjusted", 299),
+                   rep("Initial", 750), 
+                   rep("Adjusted", 750), 
+                   rep("Initial", 1391), 
+                   rep("Adjusted", 1391))
+
+Fishery <- c((rep("Abalone", 1084)), (rep("Finfish", 598)), (rep("Lobster", 1500)), rep("Pen Shell", 2782))
+
+ErrorData <- data.frame(Total_Error_mm,
+                       Estimate_Type, 
+                       Fishery)
+
+# Set factor levels and colors
+ErrorData$Estimate_Type <- factor(ErrorData$Estimate_Type, levels = c("Initial", "Adjusted"))
+cols <- c("purple", "green")
+
+# Total Error Violin Plot 
+TE <- ggplot(data = ErrorData,
+  aes(x = Estimate_Type, y = Total_Error_mm, fill = Estimate_Type)) + 
+  geom_violin() +
+  coord_cartesian(ylim = c(-250, 250)) +
+  xlab("Taxa") +
+  ylab("Deviation from True Size (mm)") +
+  scale_fill_manual(values = cols) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  theme_bw()
+
+TE <- TE +
+  geom_boxplot(width = 0.3, position = position_dodge(width = 0.75), fill = "transparent", color = "black", alpha = 0.5, outlier.shape = NA) +
+  facet_grid(.~Fishery, scales = "free_x", space = "free_x") +
+  guides(fill = guide_legend(title = "Software Estimate Type")) +
+  theme(plot.title = element_text(hjust = 0))
+
+print(TE)
+
+# Percent Error Violin Plot
+PE <- ggplot(data = ErrorData,
+  aes(x = Estimate_Type, y = Percent_Error, fill = Estimate_Type)) + 
+  geom_violin() +
+  coord_cartesian(ylim = c(-100, 160)) +
+  xlab("Estimate Type") +
+  ylab("Percent Error") +
+  ggtitle("(b)") +
+  scale_fill_manual(values = cols) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  theme_bw()
+
+PE <- PE +
+  geom_boxplot(width = 0.3, position = position_dodge(width = 0.75), fill = "transparent", color = "black", alpha = 0.5, outlier.shape = NA) +
+  facet_grid(.~Fishery, scales = "free_x", space = "free_x") +
+  guides(fill = guide_legend(title = "Software Estimate Type")) +
+  theme(plot.title = element_text(hjust = 0))
+
+ErrorAcrossFisheries <- ggarrange(TE, PE, nrow = 2, ncol = 1)
+
+ggsave("ErrorAcrossFisheries.pdf", ErrorAcrossFisheries, width = 8, height = 6, dpi = 300)
+```
+

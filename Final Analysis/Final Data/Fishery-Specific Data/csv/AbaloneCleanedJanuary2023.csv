@@ -1,0 +1,546 @@
+﻿Record,Abalone_ID,User_Name,User_ID,Camera_Type,Phone_Type,Algorithm_Estimate_mm,Adjusted_Estimate_mm,Hand_Measurement_mm,Algorithm_Total_Error_mm,Adjusted_Total_Error_mm,Algorithm_Percent_Error,Adjusted_Percent_Error,Include
+1,1,Anna Neuman,1,Iphone,iPhone,211.58,211.58,218.3,-6.72,-6.72,-3.08,-3.08,yes
+2,1,Jason White,7,Iphone 6,iPhone,234.7,210.82,218.3,16.4,-7.48,7.51,-3.43,yes
+3,1,Diego,4,Iphone 6,iPhone,214.38,214.38,218.3,-3.92,-3.92,-1.8,-1.8,yes
+4,1,Paige,12,Iphone 5,iPhone,238.76,222.25,218.3,20.46,3.95,9.37,1.81,yes
+5,1,Kristof Hovaten,11,Android S6,Android,215.39,215.39,218.3,-2.91,-2.91,-1.33,-1.33,yes
+6,1,Irene,6,Samsung Galaxy S6,Samsung,204.47,204.47,218.3,-13.83,-13.83,-6.34,-6.34,yes
+7,1,Josh Graybiel,10,Iphone 6,iPhone,180.59,212.09,218.3,-37.71,-6.21,-17.27,-2.84,yes
+8,1,Jessica Twining,8,Iphone 5s,iPhone,246.89,207.26,218.3,28.59,-11.04,13.1,-5.06,yes
+9,1,Rae Taylor-Burns,13,Iphone 6,iPhone,224.28,192.28,218.3,5.98,-26.02,2.74,-11.92,yes
+10,1,Briana Sears,3,Iphone 5,iPhone,270,218.95,218.3,51.7,0.65,23.68,0.3,yes
+11,1,Brian,2,Iphone 6,iPhone,231.9,205.23,218.3,13.6,-13.07,6.23,-5.99,yes
+12,1,Gavin,5,Samsung Galaxy S6,Samsung,212.6,209.3,218.3,-5.7,-9,-2.61,-4.12,yes
+13,1,Jonathan Williams,9,Google Nexus,Google Nexus,268.99,212.34,218.3,50.69,-5.96,23.22,-2.73,yes
+14,2,Jason White,7,Iphone 6,iPhone,252.22,223.77,213,39.22,10.77,18.41,5.06,yes
+15,2,Kristof Hovaten,11,Android S6,Android,232.66,203.2,213,19.66,-9.8,9.23,-4.6,yes
+16,2,Briana Sears,3,Iphone 5,iPhone,262.13,207.77,213,49.13,-5.23,23.06,-2.45,yes
+17,2,Anna Neuman,1,Iphone,iPhone,230.38,209.8,213,17.38,-3.2,8.16,-1.5,yes
+18,2,Rae Taylor-Burns,13,Iphone 6,iPhone,211.07,211.07,213,-1.93,-1.93,-0.9,-0.9,yes
+19,2,Irene,6,Samsung Galaxy S6,Samsung,200.15,210.06,213,-12.85,-2.94,-6.03,-1.38,yes
+20,2,Jonathan Williams,9,Google Nexus,Google Nexus,320.29,217.93,213,107.29,4.93,50.37,2.32,yes
+21,2,Josh Graybiel,10,Iphone 6,iPhone,222.76,207.77,213,9.76,-5.23,4.58,-2.45,yes
+22,2,Gavin,5,Samsung Galaxy S6,Samsung,306.07,197.1,213,93.07,-15.9,43.69,-7.46,yes
+23,2,Jessica Twining,8,Iphone 5s,iPhone,225.04,204.22,213,12.04,-8.78,5.65,-4.12,yes
+24,2,Paige,12,Iphone 5,iPhone,260.86,219.96,213,47.86,6.96,22.47,3.27,yes
+25,2,Diego,4,Iphone 6,iPhone,277.37,222,213,64.37,9,30.22,4.22,yes
+26,2,Brian,2,Iphone 6,iPhone,221.49,221.49,213,8.49,8.49,3.98,3.98,yes
+27,3,Anna Neuman,1,Iphone,iPhone,238,231.14,231.79,6.21,-0.65,2.68,-0.28,yes
+28,3,Jessica Twining,8,Iphone 5s,iPhone,225.04,201.42,231.79,-6.74,-30.37,-2.91,-13.1,yes
+29,3,Paige,12,Iphone 5,iPhone,232.41,232.41,231.79,0.62,0.62,0.27,0.27,yes
+30,3,Jason White,7,Iphone 6,iPhone,238.51,238.51,231.79,6.72,6.72,2.9,2.9,yes
+31,3,Diego,4,Iphone 6,iPhone,244.6,236.98,231.79,12.81,5.19,5.53,2.24,yes
+32,3,Brian,2,Iphone 6,iPhone,243.84,237.74,231.79,12.05,5.96,5.2,2.57,yes
+33,3,Rae Taylor-Burns,13,Iphone 6,iPhone,248.41,228.35,231.79,16.62,-3.44,7.17,-1.48,yes
+34,3,Kristof Hovaten,11,Android S6,Android,251.46,221.74,231.79,19.67,-10.05,8.49,-4.33,yes
+35,3,Jonathan Williams,9,Google Nexus,Google Nexus,252.22,233.43,231.79,20.43,1.64,8.82,0.71,yes
+36,3,Gavin,5,Samsung Galaxy S6,Samsung,399.29,240.03,231.79,167.5,8.24,72.26,3.56,yes
+37,3,Josh Graybiel,10,Iphone 6,iPhone,215.39,206.76,231.79,-16.4,-25.03,-7.07,-10.8,yes
+38,3,Irene,6,Samsung Galaxy S6,Samsung,249.94,259.08,231.79,18.15,27.29,7.83,11.77,yes
+39,3,Briana Sears,3,Iphone 5,iPhone,238.25,238.25,231.79,6.46,6.46,2.79,2.79,yes
+40,4,Rae Taylor-Burns,13,Iphone 6,iPhone,254,230.38,205,49,25.38,23.9,12.38,yes
+41,4,Gavin,5,Samsung Galaxy S6,Samsung,327.15,230.89,205,122.15,25.89,59.59,12.63,yes
+42,4,Josh Graybiel,10,Iphone 6,iPhone,251.21,224.28,205,46.21,19.28,22.54,9.41,yes
+43,4,Kristof Hovaten,11,Android S6,Android,196.09,226.06,205,-8.91,21.06,-4.35,10.27,yes
+44,4,Irene,6,Samsung Galaxy S6,Samsung,234.95,224.28,205,29.95,19.28,14.61,9.41,yes
+45,4,Jason White,7,Iphone 6,iPhone,307.09,211.33,205,102.09,6.33,49.8,3.09,yes
+46,4,Jonathan Williams,9,Google Nexus,Google Nexus,232.16,223.77,205,27.16,18.77,13.25,9.16,yes
+47,4,Brian,2,Iphone 6,iPhone,209.8,209.8,205,4.8,4.8,2.34,2.34,yes
+48,4,Jessica Twining,8,Iphone 5s,iPhone,209.55,209.55,205,4.55,4.55,2.22,2.22,yes
+49,4,Anna Neuman,1,Iphone,iPhone,276.35,225.3,205,71.35,20.3,34.81,9.9,yes
+50,4,Diego,4,Iphone 6,iPhone,215.65,208.03,205,10.65,3.03,5.19,1.48,yes
+51,4,Briana Sears,3,Iphone 5,iPhone,211.07,190.25,205,6.07,-14.75,2.96,-7.2,yes
+52,4,Paige,12,Iphone 5,iPhone,208.03,189.99,205,3.03,-15.01,1.48,-7.32,yes
+53,5,Jason White,7,Iphone 6,iPhone,274.57,208.03,227.5,47.08,-19.47,20.69,-8.56,yes
+54,5,Anna Neuman,1,Iphone,iPhone,239.78,215.14,227.5,12.28,-12.36,5.4,-5.43,yes
+55,5,Jonathan Williams,9,Google Nexus,Google Nexus,236.98,228.09,227.5,9.49,0.6,4.17,0.26,yes
+56,5,Brian,2,Iphone 6,iPhone,268.73,214.12,227.5,41.24,-13.37,18.13,-5.88,yes
+57,5,Rae Taylor-Burns,13,Iphone 6,iPhone,242.06,229.11,227.5,14.57,1.61,6.4,0.71,yes
+58,5,Irene,6,Samsung Galaxy S6,Samsung,251.46,237.49,227.5,23.96,9.99,10.53,4.39,yes
+59,5,Kristof Hovaten,11,Android S6,Android,253.75,220.98,227.5,26.25,-6.52,11.54,-2.86,yes
+60,5,Diego,4,Iphone 6,iPhone,229.62,217.17,227.5,2.12,-10.33,0.93,-4.54,yes
+61,5,Gavin,5,Samsung Galaxy S6,Samsung,284.23,226.31,227.5,56.73,-1.18,24.94,-0.52,yes
+62,5,Jessica Twining,8,Iphone 5s,iPhone,236.73,209.04,227.5,9.23,-18.45,4.06,-8.11,yes
+63,5,Paige,12,Iphone 5,iPhone,262.89,227.58,227.5,35.39,0.09,15.56,0.04,yes
+64,5,Briana Sears,3,Iphone 5,iPhone,264.67,222.76,227.5,37.17,-4.74,16.34,-2.08,yes
+65,5,Josh Graybiel,10,Iphone 6,iPhone,238.76,216.41,227.5,11.26,-11.09,4.95,-4.87,yes
+66,6,Josh Graybiel,10,Iphone 6,iPhone,227.08,227.08,228,-0.92,-0.92,-0.41,-0.41,yes
+67,6,Irene,6,Samsung Galaxy S6,Samsung,249.43,219.46,228,21.43,-8.54,9.4,-3.75,yes
+68,6,Brian,2,Iphone 6,iPhone,127.76,823.47,228,-100.24,595.47,-43.96,261.17,no
+69,6,Gavin,5,Samsung Galaxy S6,Samsung,114.3,236.47,228,-113.7,8.47,-49.87,3.72,yes
+70,6,Jason White,7,Iphone 6,iPhone,230.89,230.89,228,2.89,2.89,1.27,1.27,yes
+71,6,Anna Neuman,1,Iphone,iPhone,304.29,229.11,228,76.29,1.11,33.46,0.49,yes
+72,6,Paige,12,Iphone 5,iPhone,261.87,242.57,228,33.87,14.57,14.86,6.39,yes
+73,6,Diego,4,Iphone 6,iPhone,217.17,230.89,228,-10.83,2.89,-4.75,1.27,yes
+74,6,Rae Taylor-Burns,13,Iphone 6,iPhone,253.24,233.93,228,25.24,5.93,11.07,2.6,yes
+75,6,Jonathan Williams,9,Google Nexus,Google Nexus,253.75,225.04,228,25.75,-2.96,11.29,-1.3,yes
+76,6,Jessica Twining,8,Iphone 5s,iPhone,249.43,220.22,228,21.43,-7.78,9.4,-3.41,yes
+77,6,Kristof Hovaten,11,Android S6,Android,241.3,253.49,228,13.3,25.49,5.83,11.18,yes
+78,6,Briana Sears,3,Iphone 5,iPhone,359.16,251.71,228,131.16,23.71,57.52,10.4,yes
+79,7,Jason White,7,Iphone 6,iPhone,220.98,220.98,219.7,1.28,1.28,0.58,0.58,yes
+80,7,Josh Graybiel,10,Iphone 6,iPhone,324.36,208.03,219.7,104.66,-11.67,47.64,-5.31,yes
+81,7,Rae Taylor-Burns,13,Iphone 6,iPhone,167.39,207.01,219.7,-52.31,-12.69,-23.81,-5.77,yes
+82,7,Irene,6,Samsung Galaxy S6,Samsung,255.78,197.1,219.7,36.08,-22.59,16.42,-10.28,yes
+83,7,Gavin,5,Samsung Galaxy S6,Samsung,287.27,203.2,219.7,67.58,-16.5,30.76,-7.51,yes
+84,7,Anna Neuman,1,Iphone,iPhone,332.99,214.88,219.7,113.3,-4.81,51.57,-2.19,yes
+85,7,Kristof Hovaten,11,Android S6,Android,225.81,210.06,219.7,6.11,-9.64,2.78,-4.39,yes
+86,7,Diego,4,Iphone 6,iPhone,237.49,213.11,219.7,17.79,-6.59,8.1,-3,yes
+87,7,Briana Sears,3,Iphone 5,iPhone,232.66,223.77,219.7,12.97,4.08,5.9,1.86,yes
+88,7,Brian,2,Iphone 6,iPhone,236.22,215.9,219.7,16.52,-3.8,7.52,-1.73,yes
+89,7,Paige,12,Iphone 5,iPhone,261.11,219.46,219.7,41.41,-0.24,18.85,-0.11,yes
+90,7,Jonathan Williams,9,Google Nexus,Google Nexus,226.31,219.71,219.7,6.62,0.01,3.01,0.01,yes
+91,7,Jessica Twining,8,Iphone 5s,iPhone,250.19,204.47,219.7,30.49,-15.23,13.88,-6.93,yes
+92,8,Brian,2,Iphone 6,iPhone,254.51,243.08,244,10.51,-0.92,4.31,-0.38,yes
+93,8,Diego,4,Iphone 6,iPhone,248.67,248.92,244,4.67,4.92,1.91,2.02,yes
+94,8,Josh Graybiel,10,Iphone 6,iPhone,215.65,226.06,244,-28.35,-17.94,-11.62,-7.35,yes
+95,8,Jonathan Williams,9,Google Nexus,Google Nexus,242.06,242.06,244,-1.94,-1.94,-0.79,-0.79,yes
+96,8,Irene,6,Samsung Galaxy S6,Samsung,238.51,238.51,244,-5.49,-5.49,-2.25,-2.25,yes
+97,8,Paige,12,Iphone 5,iPhone,250.95,246.13,244,6.95,2.13,2.85,0.87,yes
+98,8,Briana Sears,3,Iphone 5,iPhone,259.08,248.41,244,15.08,4.41,6.18,1.81,yes
+99,8,Jason White,7,Iphone 6,iPhone,231.65,231.65,244,-12.35,-12.35,-5.06,-5.06,yes
+100,8,Anna Neuman,1,Iphone,iPhone,241.05,233.68,244,-2.95,-10.32,-1.21,-4.23,yes
+101,8,Kristof Hovaten,11,Android S6,Android,225.81,243.08,244,-18.19,-0.92,-7.46,-0.38,yes
+102,8,Rae Taylor-Burns,13,Iphone 6,iPhone,202.44,235.2,244,-41.56,-8.8,-17.03,-3.6,yes
+103,8,Jessica Twining,8,Iphone 5s,iPhone,195.33,195.33,244,-48.67,-48.67,-19.95,-19.95,yes
+104,8,Gavin,5,Samsung Galaxy S6,Samsung,317.5,243.33,244,73.5,-0.67,30.12,-0.27,yes
+105,9,Diego,4,Iphone 6,iPhone,230.38,214.12,201.32,29.06,12.8,14.43,6.36,yes
+106,9,Irene,6,Samsung Galaxy S6,Samsung,199.39,199.39,201.32,-1.93,-1.93,-0.96,-0.96,yes
+107,9,Josh Graybiel,10,Iphone 6,iPhone,224.28,203.71,201.32,22.96,2.39,11.41,1.19,yes
+108,9,Jason White,7,Iphone 6,iPhone,225.04,216.66,201.32,23.72,15.34,11.78,7.62,yes
+109,9,Rae Taylor-Burns,13,Iphone 6,iPhone,257.56,208.03,201.32,56.24,6.71,27.93,3.33,yes
+110,9,Paige,12,Iphone 5,iPhone,231.9,211.07,201.32,30.58,9.75,15.19,4.84,yes
+111,9,Briana Sears,3,Iphone 5,iPhone,223.52,220.22,201.32,22.2,18.9,11.03,9.39,yes
+112,9,Gavin,5,Samsung Galaxy S6,Samsung,230.12,203.2,201.32,28.8,1.88,14.31,0.93,yes
+113,9,Brian,2,Iphone 6,iPhone,239.78,205.99,201.32,38.46,4.67,19.1,2.32,yes
+114,9,Kristof Hovaten,11,Android S6,Android,197.87,207.26,201.32,-3.45,5.94,-1.72,2.95,yes
+115,9,Anna Neuman,1,Iphone,iPhone,326.64,171.45,201.32,125.32,-29.87,62.25,-14.84,yes
+116,9,Jonathan Williams,9,Google Nexus,Google Nexus,298.2,225.04,201.32,96.88,23.72,48.12,11.78,yes
+117,9,Jessica Twining,8,Iphone 5s,iPhone,249.43,179.07,201.32,48.11,-22.25,23.9,-11.05,yes
+118,10,Diego,4,Iphone 6,iPhone,343.15,234.7,219,124.15,15.7,56.69,7.17,yes
+119,10,Paige,12,Iphone 5,iPhone,300.99,242.82,219,81.99,23.82,37.44,10.88,yes
+120,10,Jason White,7,Iphone 6,iPhone,241.05,217.42,219,22.05,-1.58,10.07,-0.72,yes
+121,10,Irene,6,Samsung Galaxy S6,Samsung,241.3,221.23,219,22.3,2.23,10.18,1.02,yes
+122,10,Brian,2,Iphone 6,iPhone,258.57,224.28,219,39.57,5.28,18.07,2.41,yes
+123,10,Briana Sears,3,Iphone 5,iPhone,283.46,222.25,219,64.46,3.25,29.44,1.48,yes
+124,10,Anna Neuman,1,Iphone,iPhone,239.52,239.52,219,20.52,20.52,9.37,9.37,yes
+125,10,Josh Graybiel,10,Iphone 6,iPhone,218.69,213.87,219,-0.31,-5.13,-0.14,-2.34,yes
+126,10,Jonathan Williams,9,Google Nexus,Google Nexus,253.75,207.77,219,34.75,-11.23,15.87,-5.13,yes
+127,10,Rae Taylor-Burns,13,Iphone 6,iPhone,220.73,220.73,219,1.73,1.73,0.79,0.79,yes
+128,10,Jessica Twining,8,Iphone 5s,iPhone,227.08,213.36,219,8.08,-5.64,3.69,-2.58,yes
+129,10,Kristof Hovaten,11,Android S6,Android,263.91,238.51,219,44.91,19.51,20.51,8.91,yes
+130,10,Gavin,5,Samsung Galaxy S6,Samsung,378.97,235.71,219,159.97,16.71,73.04,7.63,yes
+131,11,Irene,6,Samsung Galaxy S6,Samsung,293.62,249.94,242.38,51.24,7.56,21.14,3.12,yes
+132,11,Anna Neuman,1,Iphone,iPhone,245.87,245.87,242.38,3.49,3.49,1.44,1.44,yes
+133,11,Brian,2,Iphone 6,iPhone,198.63,256.03,242.38,-43.75,13.65,-18.05,5.63,yes
+134,11,Briana Sears,3,Iphone 5,iPhone,342.65,258.83,242.38,100.27,16.45,41.37,6.79,yes
+135,11,Josh Graybiel,10,Iphone 6,iPhone,223.27,203.2,242.38,-19.11,-39.18,-7.89,-16.16,yes
+136,11,Jonathan Williams,9,Google Nexus,Google Nexus,279.15,238.25,242.38,36.77,-4.13,15.17,-1.7,yes
+137,11,Diego,4,Iphone 6,iPhone,246.89,213.11,242.38,4.51,-29.27,1.86,-12.08,yes
+138,11,Gavin,5,Samsung Galaxy S6,Samsung,389.89,239.78,242.38,147.51,-2.6,60.86,-1.07,yes
+139,11,Paige,12,Iphone 5,iPhone,272.03,272.03,242.38,29.65,29.65,12.23,12.23,yes
+140,11,Kristof Hovaten,11,Android S6,Android,258.06,235.46,242.38,15.68,-6.92,6.47,-2.86,yes
+141,11,Jessica Twining,8,Iphone 5s,iPhone,235.46,215.9,242.38,-6.92,-26.48,-2.86,-10.92,yes
+142,11,Jason White,7,Iphone 6,iPhone,253.24,252.22,242.38,10.86,9.84,4.48,4.06,yes
+143,11,Rae Taylor-Burns,13,Iphone 6,iPhone,224.54,210.82,242.38,-17.84,-31.56,-7.36,-13.02,yes
+144,12,Anna Neuman,1,Iphone,iPhone,269.24,223.52,206,63.24,17.52,30.7,8.5,yes
+145,12,Josh Graybiel,10,Iphone 6,iPhone,233.93,217.17,206,27.93,11.17,13.56,5.42,yes
+146,12,Diego,4,Iphone 6,iPhone,240.28,209.8,206,34.28,3.8,16.64,1.85,yes
+147,12,Paige,12,Iphone 5,iPhone,292.86,211.84,206,86.86,5.84,42.17,2.83,yes
+148,12,Briana Sears,3,Iphone 5,iPhone,304.8,256.29,206,98.8,50.29,47.96,24.41,yes
+149,12,Gavin,5,Samsung Galaxy S6,Samsung,376.94,212.09,206,170.94,6.09,82.98,2.96,yes
+150,12,Jason White,7,Iphone 6,iPhone,315.98,451.1,206,109.98,245.1,53.39,118.98,no
+151,12,Kristof Hovaten,11,Android S6,Android,211.07,211.07,206,5.07,5.07,2.46,2.46,yes
+152,12,Jessica Twining,8,Iphone 5s,iPhone,293.12,197.36,206,87.12,-8.64,42.29,-4.2,yes
+153,12,Irene,6,Samsung Galaxy S6,Samsung,210.57,210.57,206,4.57,4.57,2.22,2.22,yes
+154,12,Rae Taylor-Burns,13,Iphone 6,iPhone,259.84,204.22,206,53.84,-1.78,26.14,-0.87,yes
+155,12,Brian,2,Iphone 6,iPhone,196.09,205.49,206,-9.91,-0.51,-4.81,-0.25,yes
+156,12,Jonathan Williams,9,Google Nexus,Google Nexus,307.85,223.77,206,101.85,17.77,49.44,8.63,yes
+157,13,Gavin,5,Samsung Galaxy S6,Samsung,279.91,247.65,237.55,42.35,10.1,17.83,4.25,yes
+158,13,Diego,4,Iphone 6,iPhone,251.21,251.21,237.55,13.65,13.65,5.75,5.75,yes
+159,13,Irene,6,Samsung Galaxy S6,Samsung,287.78,242.82,237.55,50.23,5.27,21.14,2.22,yes
+160,13,Paige,12,Iphone 5,iPhone,305.31,247.14,237.55,67.75,9.59,28.52,4.04,yes
+161,13,Briana Sears,3,Iphone 5,iPhone,250.95,250.95,237.55,13.4,13.4,5.64,5.64,yes
+162,13,Jason White,7,Iphone 6,iPhone,244.09,209.3,237.55,6.54,-28.26,2.75,-11.9,yes
+163,13,Anna Neuman,1,Iphone,iPhone,341.63,215.9,237.55,104.08,-21.65,43.81,-9.12,yes
+164,13,Brian,2,Iphone 6,iPhone,243.08,229.11,237.55,5.52,-8.45,2.33,-3.56,yes
+165,13,Kristof Hovaten,11,Android S6,Android,248.67,234.7,237.55,11.11,-2.86,4.68,-1.2,yes
+166,13,Jessica Twining,8,Iphone 5s,iPhone,251.21,231.65,237.55,13.65,-5.91,5.75,-2.49,yes
+167,13,Josh Graybiel,10,Iphone 6,iPhone,327.91,218.95,237.55,90.36,-18.61,38.04,-7.83,yes
+168,13,Rae Taylor-Burns,13,Iphone 6,iPhone,178.82,210.82,237.55,-58.74,-26.73,-24.73,-11.25,yes
+169,13,Jonathan Williams,9,Google Nexus,Google Nexus,239.27,219.46,237.55,1.71,-18.1,0.72,-7.62,yes
+170,14,Josh Graybiel,10,Iphone 6,iPhone,266.45,209.8,228,38.45,-18.2,16.86,-7.98,yes
+171,14,Irene,6,Samsung Galaxy S6,Samsung,345.19,244.09,228,117.19,16.09,51.4,7.06,yes
+172,14,Jonathan Williams,9,Google Nexus,Google Nexus,252.22,235.71,228,24.22,7.71,10.62,3.38,yes
+173,14,Diego,4,Iphone 6,iPhone,267.21,240.79,228,39.21,12.79,17.2,5.61,yes
+174,14,Gavin,5,Samsung Galaxy S6,Samsung,271.78,244.6,228,43.78,16.6,19.2,7.28,yes
+175,14,Briana Sears,3,Iphone 5,iPhone,243.59,233.93,228,15.59,5.93,6.84,2.6,yes
+176,14,Rae Taylor-Burns,13,Iphone 6,iPhone,256.79,236.73,228,28.79,8.73,12.63,3.83,yes
+177,14,Jason White,7,Iphone 6,iPhone,283.72,242.57,228,55.72,14.57,24.44,6.39,yes
+178,14,Paige,12,Iphone 5,iPhone,247.9,231.39,228,19.9,3.39,8.73,1.49,yes
+179,14,Anna Neuman,1,Iphone,iPhone,283.46,247.14,228,55.46,19.14,24.33,8.4,yes
+180,14,Brian,2,Iphone 6,iPhone,249.68,214.38,228,21.68,-13.62,9.51,-5.98,yes
+181,14,Kristof Hovaten,11,Android S6,Android,206.25,232.41,228,-21.75,4.41,-9.54,1.93,yes
+182,14,Jessica Twining,8,Iphone 5s,iPhone,245.36,221.23,228,17.36,-6.77,7.62,-2.97,yes
+183,15,Paige,12,Iphone 5,iPhone,282.45,216.66,220.7,61.75,-4.04,27.98,-1.83,yes
+184,15,Anna Neuman,1,Iphone,iPhone,227.08,205.49,220.7,6.38,-15.21,2.89,-6.89,yes
+185,15,Gavin,5,Samsung Galaxy S6,Samsung,225.81,216.92,220.7,5.11,-3.78,2.31,-1.71,yes
+186,15,Jonathan Williams,9,Google Nexus,Google Nexus,208.28,208.28,220.7,-12.42,-12.42,-5.63,-5.63,yes
+187,15,Irene,6,Samsung Galaxy S6,Samsung,261.87,264.16,220.7,41.17,43.46,18.66,19.69,yes
+188,15,Kristof Hovaten,11,Android S6,Android,238.51,208.79,220.7,17.81,-11.91,8.07,-5.4,yes
+189,15,Brian,2,Iphone 6,iPhone,228.85,214.38,220.7,8.15,-6.32,3.69,-2.87,yes
+190,15,Diego,4,Iphone 6,iPhone,210.31,217.68,220.7,-10.39,-3.02,-4.71,-1.37,yes
+191,15,Josh Graybiel,10,Iphone 6,iPhone,201.68,220.47,220.7,-19.02,-0.23,-8.62,-0.1,yes
+192,15,Jessica Twining,8,Iphone 5s,iPhone,223.77,204.72,220.7,3.07,-15.98,1.39,-7.24,yes
+193,15,Jason White,7,Iphone 6,iPhone,205.49,205.49,220.7,-15.21,-15.21,-6.89,-6.89,yes
+194,15,Rae Taylor-Burns,13,Iphone 6,iPhone,171.45,184.4,220.7,-49.25,-36.3,-22.32,-16.45,yes
+195,16,Briana Sears,3,Iphone 5,iPhone,223.77,217.68,218,5.77,-0.32,2.65,-0.15,yes
+196,16,Irene,6,Samsung Galaxy S6,Samsung,222.25,222.25,218,4.25,4.25,1.95,1.95,yes
+197,16,Gavin,5,Samsung Galaxy S6,Samsung,250.7,240.54,218,32.7,22.54,15,10.34,yes
+198,16,Jessica Twining,8,Iphone 5s,iPhone,225.3,197.61,218,7.3,-20.39,3.35,-9.35,yes
+199,16,Diego,4,Iphone 6,iPhone,232.16,227.58,218,14.16,9.58,6.49,4.4,yes
+200,16,Paige,12,Iphone 5,iPhone,209.3,209.3,218,-8.7,-8.7,-3.99,-3.99,yes
+201,16,Kristof Hovaten,11,Android S6,Android,229.36,229.36,218,11.36,11.36,5.21,5.21,yes
+202,16,Rae Taylor-Burns,13,Iphone 6,iPhone,217.93,217.93,218,-0.07,-0.07,-0.03,-0.03,yes
+203,16,Jonathan Williams,9,Google Nexus,Google Nexus,214.63,207.26,218,-3.37,-10.74,-1.55,-4.92,yes
+204,16,Anna Neuman,1,Iphone,iPhone,233.17,224.28,218,15.17,6.28,6.96,2.88,yes
+205,16,Josh Graybiel,10,Iphone 6,iPhone,217.17,217.17,218,-0.83,-0.83,-0.38,-0.38,yes
+206,16,Brian,2,Iphone 6,iPhone,230.12,225.3,218,12.12,7.3,5.56,3.35,yes
+207,16,Jason White,7,Iphone 6,iPhone,194.06,211.33,218,-23.94,-6.67,-10.98,-3.06,yes
+208,17,Paige,12,Iphone 5,iPhone,240.79,240.79,229.11,11.68,11.68,5.1,5.1,yes
+209,17,Irene,6,Samsung Galaxy S6,Samsung,225.04,249.94,229.11,-4.06,20.83,-1.77,9.09,yes
+210,17,Kristof Hovaten,11,Android S6,Android,248.92,248.92,229.11,19.81,19.81,8.65,8.65,yes
+211,17,Briana Sears,3,Iphone 5,iPhone,231.65,232.66,229.11,2.54,3.56,1.11,1.55,yes
+212,17,Jonathan Williams,9,Google Nexus,Google Nexus,255.52,207.26,229.11,26.42,-21.84,11.53,-9.53,yes
+213,17,Anna Neuman,1,Iphone,iPhone,219.96,219.96,229.11,-9.14,-9.14,-3.99,-3.99,yes
+214,17,Josh Graybiel,10,Iphone 6,iPhone,235.71,221.23,229.11,6.6,-7.87,2.88,-3.44,yes
+215,17,Gavin,5,Samsung Galaxy S6,Samsung,337.82,238.51,229.11,108.71,9.4,47.45,4.1,yes
+216,17,Rae Taylor-Burns,13,Iphone 6,iPhone,163.83,217.17,229.11,-65.28,-11.94,-28.49,-5.21,yes
+217,17,Brian,2,Iphone 6,iPhone,230.89,223.52,229.11,1.78,-5.59,0.78,-2.44,yes
+218,17,Jason White,7,Iphone 6,iPhone,246.38,223.27,229.11,17.27,-5.84,7.54,-2.55,yes
+219,17,Jessica Twining,8,Iphone 5s,iPhone,256.79,217.17,229.11,27.69,-11.94,12.08,-5.21,yes
+220,17,Diego,4,Iphone 6,iPhone,290.32,224.79,229.11,61.21,-4.32,26.72,-1.88,yes
+221,18,Paige,12,Iphone 5,iPhone,222.25,213.11,221,1.25,-7.89,0.57,-3.57,yes
+222,18,Briana Sears,3,Iphone 5,iPhone,235.71,218.95,221,14.71,-2.05,6.66,-0.93,yes
+223,18,Gavin,5,Samsung Galaxy S6,Samsung,223.77,227.84,221,2.77,6.84,1.26,3.09,yes
+224,18,Kristof Hovaten,11,Android S6,Android,228.35,228.35,221,7.35,7.35,3.32,3.32,yes
+225,18,Jessica Twining,8,Iphone 5s,iPhone,219.96,204.22,221,-1.04,-16.78,-0.47,-7.59,yes
+226,18,Jonathan Williams,9,Google Nexus,Google Nexus,237.74,227.08,221,16.74,6.08,7.58,2.75,yes
+227,18,Irene,6,Samsung Galaxy S6,Samsung,249.43,219.46,221,28.43,-1.54,12.86,-0.7,yes
+228,18,Rae Taylor-Burns,13,Iphone 6,iPhone,234.44,234.44,221,13.44,13.44,6.08,6.08,yes
+229,18,Anna Neuman,1,Iphone,iPhone,235.97,214.63,221,14.97,-6.37,6.77,-2.88,yes
+230,18,Jason White,7,Iphone 6,iPhone,242.06,217.42,221,21.06,-3.58,9.53,-1.62,yes
+231,18,Diego,4,Iphone 6,iPhone,234.19,228.35,221,13.19,7.35,5.97,3.32,yes
+232,18,Brian,2,Iphone 6,iPhone,224.79,224.79,221,3.79,3.79,1.71,1.71,yes
+233,18,Josh Graybiel,10,Iphone 6,iPhone,246.89,222.25,221,25.89,1.25,11.71,0.57,yes
+234,19,Irene,6,Samsung Galaxy S6,Samsung,229.87,220.47,217.45,12.42,3.02,5.71,1.39,yes
+235,19,Gavin,5,Samsung Galaxy S6,Samsung,273.3,209.04,217.45,55.85,-8.41,25.69,-3.87,yes
+236,19,Jonathan Williams,9,Google Nexus,Google Nexus,203.71,225.3,217.45,-13.74,7.85,-6.32,3.61,yes
+237,19,Paige,12,Iphone 5,iPhone,194.06,220.98,217.45,-23.39,3.53,-10.76,1.62,yes
+238,19,Briana Sears,3,Iphone 5,iPhone,214.38,208.03,217.45,-3.07,-9.42,-1.41,-4.33,yes
+239,19,Jessica Twining,8,Iphone 5s,iPhone,276.86,198.88,217.45,59.41,-18.57,27.32,-8.54,yes
+240,19,Brian,2,Iphone 6,iPhone,211.58,220.98,217.45,-5.87,3.53,-2.7,1.62,yes
+241,19,Jason White,7,Iphone 6,iPhone,287.78,197.61,217.45,70.33,-19.84,32.34,-9.12,yes
+242,19,Kristof Hovaten,11,Android S6,Android,235.97,211.33,217.45,18.52,-6.12,8.52,-2.82,yes
+243,19,Rae Taylor-Burns,13,Iphone 6,iPhone,246.38,211.07,217.45,28.93,-6.38,13.3,-2.93,yes
+244,19,Josh Graybiel,10,Iphone 6,iPhone,231.9,211.84,217.45,14.45,-5.61,6.65,-2.58,yes
+245,19,Diego,4,Iphone 6,iPhone,247.9,225.04,217.45,30.45,7.59,14.01,3.49,yes
+246,19,Anna Neuman,1,Iphone,iPhone,262.13,200.15,217.45,44.68,-17.3,20.55,-7.95,yes
+247,20,Paige,12,Iphone 5,iPhone,277.11,218.44,236,41.11,-17.56,17.42,-7.44,yes
+248,20,Briana Sears,3,Iphone 5,iPhone,183.39,223.27,236,-52.61,-12.73,-22.29,-5.4,yes
+249,20,Jonathan Williams,9,Google Nexus,Google Nexus,225.04,225.04,236,-10.96,-10.96,-4.64,-4.64,yes
+250,20,Irene,6,Samsung Galaxy S6,Samsung,231.14,231.14,236,-4.86,-4.86,-2.06,-2.06,yes
+251,20,Kristof Hovaten,11,Android S6,Android,252.73,217.93,236,16.73,-18.07,7.09,-7.66,yes
+252,20,Jessica Twining,8,Iphone 5s,iPhone,244.09,226.06,236,8.09,-9.94,3.43,-4.21,yes
+253,20,Rae Taylor-Burns,13,Iphone 6,iPhone,182.88,213.61,236,-53.12,-22.39,-22.51,-9.49,yes
+254,20,Brian,2,Iphone 6,iPhone,288.8,211.84,236,52.8,-24.16,22.37,-10.24,yes
+255,20,Jason White,7,Iphone 6,iPhone,218.95,199.64,236,-17.05,-36.36,-7.23,-15.41,yes
+256,20,Gavin,5,Samsung Galaxy S6,Samsung,252.48,240.79,236,16.48,4.79,6.98,2.03,yes
+257,20,Josh Graybiel,10,Iphone 6,iPhone,259.08,241.3,236,23.08,5.3,9.78,2.25,yes
+258,20,Diego,4,Iphone 6,iPhone,255.52,242.57,236,19.52,6.57,8.27,2.78,yes
+259,20,Anna Neuman,1,Iphone,iPhone,329.69,242.57,236,93.69,6.57,39.7,2.78,yes
+260,21,Paige,12,Iphone 5,iPhone,207.52,230.63,221.13,-13.61,9.5,-6.16,4.3,yes
+261,21,Kristof Hovaten,11,Android S6,Android,260.86,250.95,221.13,39.73,29.82,17.96,13.48,yes
+262,21,Briana Sears,3,Iphone 5,iPhone,151.13,700.02,221.13,-70,478.89,-31.66,216.56,no
+263,21,Jonathan Williams,9,Google Nexus,Google Nexus,234.95,232.66,221.13,13.82,11.53,6.25,5.21,yes
+264,21,Irene,6,Samsung Galaxy S6,Samsung,249.43,219.46,221.13,28.3,-1.68,12.8,-0.76,yes
+265,21,Diego,4,Iphone 6,iPhone,312.93,233.17,221.13,91.8,12.04,41.51,5.44,yes
+266,21,Jessica Twining,8,Iphone 5s,iPhone,277.88,232.16,221.13,56.74,11.02,25.66,4.99,yes
+267,21,Brian,2,Iphone 6,iPhone,245.11,234.44,221.13,23.98,13.31,10.84,6.02,yes
+268,21,Jason White,7,Iphone 6,iPhone,303.28,213.36,221.13,82.14,-7.77,37.15,-3.51,yes
+269,21,Rae Taylor-Burns,13,Iphone 6,iPhone,241.05,219.46,221.13,19.91,-1.68,9.01,-0.76,yes
+270,21,Josh Graybiel,10,Iphone 6,iPhone,270,247.9,221.13,48.87,26.77,22.1,12.11,yes
+271,21,Gavin,5,Samsung Galaxy S6,Samsung,345.95,224.03,221.13,124.82,2.9,56.44,1.31,yes
+272,21,Anna Neuman,1,Iphone,iPhone,252.98,225.55,221.13,31.85,4.42,14.4,2,yes
+273,22,Irene,6,Samsung Galaxy S6,Samsung,249.43,219.46,233,16.43,-13.54,7.05,-5.81,yes
+274,22,Briana Sears,3,Iphone 5,iPhone,260.86,238.51,233,27.86,5.51,11.96,2.36,yes
+275,22,Jonathan Williams,9,Google Nexus,Google Nexus,206.25,221.49,233,-26.75,-11.51,-11.48,-4.94,yes
+276,22,Kristof Hovaten,11,Android S6,Android,246.38,211.07,233,13.38,-21.93,5.74,-9.41,yes
+277,22,Jessica Twining,8,Iphone 5s,iPhone,282.7,233.68,233,49.7,0.68,21.33,0.29,yes
+278,22,Brian,2,Iphone 6,iPhone,236.98,216.15,233,3.98,-16.85,1.71,-7.23,yes
+279,22,Anna Neuman,1,Iphone,iPhone,259.59,248.92,233,26.59,15.92,11.41,6.83,yes
+280,22,Rae Taylor-Burns,13,Iphone 6,iPhone,240.28,231.14,233,7.28,-1.86,3.13,-0.8,yes
+281,22,Josh Graybiel,10,Iphone 6,iPhone,238.76,230.63,233,5.76,-2.37,2.47,-1.02,yes
+282,22,Paige,12,Iphone 5,iPhone,321.82,240.54,233,88.82,7.54,38.12,3.24,yes
+283,22,Gavin,5,Samsung Galaxy S6,Samsung,365.76,237.49,233,132.76,4.49,56.98,1.93,yes
+284,22,Jason White,7,Iphone 6,iPhone,268.99,240.54,233,35.99,7.54,15.44,3.24,yes
+285,22,Diego,4,Iphone 6,iPhone,333.25,248.92,233,100.25,15.92,43.02,6.83,yes
+286,23,Paige,12,Iphone 5,iPhone,246.38,229.87,227.62,18.76,2.25,8.24,0.99,yes
+287,23,Irene,6,Samsung Galaxy S6,Samsung,249.43,219.46,227.62,21.81,-8.17,9.58,-3.59,yes
+288,23,Brian,2,Iphone 6,iPhone,211.84,211.84,227.62,-15.79,-15.79,-6.94,-6.94,yes
+289,23,Briana Sears,3,Iphone 5,iPhone,232.16,229.36,227.62,4.53,1.74,1.99,0.76,yes
+290,23,Jessica Twining,8,Iphone 5s,iPhone,229.36,198.88,227.62,1.74,-28.74,0.76,-12.63,yes
+291,23,Josh Graybiel,10,Iphone 6,iPhone,209.3,209.3,227.62,-18.33,-18.33,-8.05,-8.05,yes
+292,23,Kristof Hovaten,11,Android S6,Android,247.4,213.11,227.62,19.77,-14.52,8.69,-6.38,yes
+293,23,Anna Neuman,1,Iphone,iPhone,222.25,222.25,227.62,-5.37,-5.37,-2.36,-2.36,yes
+294,23,Jonathan Williams,9,Google Nexus,Google Nexus,229.87,222.5,227.62,2.25,-5.12,0.99,-2.25,yes
+295,23,Jason White,7,Iphone 6,iPhone,315.21,214.12,227.62,87.59,-13.5,38.48,-5.93,yes
+296,23,Rae Taylor-Burns,13,Iphone 6,iPhone,215.14,225.81,227.62,-12.48,-1.82,-5.48,-0.8,yes
+297,23,Diego,4,Iphone 6,iPhone,274.07,220.73,227.62,46.44,-6.9,20.4,-3.03,yes
+298,23,Gavin,5,Samsung Galaxy S6,Samsung,230.89,210.31,227.62,3.26,-17.31,1.43,-7.6,yes
+299,24,Jessica Twining,8,Iphone 5s,iPhone,207.01,207.01,223,-15.99,-15.99,-7.17,-7.17,yes
+300,24,Paige,12,Iphone 5,iPhone,213.87,201.93,223,-9.13,-21.07,-4.1,-9.45,yes
+301,24,Rae Taylor-Burns,13,Iphone 6,iPhone,196.34,196.34,223,-26.66,-26.66,-11.95,-11.95,yes
+302,24,Irene,6,Samsung Galaxy S6,Samsung,247.65,218.69,223,24.65,-4.31,11.05,-1.93,yes
+303,24,Briana Sears,3,Iphone 5,iPhone,221.74,210.31,223,-1.26,-12.69,-0.56,-5.69,yes
+304,24,Anna Neuman,1,Iphone,iPhone,250.95,224.79,223,27.95,1.79,12.53,0.8,yes
+305,24,Jason White,7,Iphone 6,iPhone,233.68,215.39,223,10.68,-7.61,4.79,-3.41,yes
+306,24,Kristof Hovaten,11,Android S6,Android,277.11,224.79,223,54.11,1.79,24.27,0.8,yes
+307,24,Jonathan Williams,9,Google Nexus,Google Nexus,234.95,224.03,223,11.95,1.03,5.36,0.46,yes
+308,24,Josh Graybiel,10,Iphone 6,iPhone,229.87,215.39,223,6.87,-7.61,3.08,-3.41,yes
+309,24,Diego,4,Iphone 6,iPhone,236.98,212.09,223,13.98,-10.91,6.27,-4.89,yes
+310,24,Brian,2,Iphone 6,iPhone,238,224.79,223,15,1.79,6.73,0.8,yes
+311,24,Gavin,5,Samsung Galaxy S6,Samsung,282.19,240.79,223,59.19,17.79,26.54,7.98,yes
+312,25,Paige,12,Iphone 5,iPhone,261.37,236.73,236.77,24.6,-0.04,10.39,-0.02,yes
+313,25,Briana Sears,3,Iphone 5,iPhone,256.79,243.08,236.77,20.03,6.31,8.46,2.67,yes
+314,25,Jessica Twining,8,Iphone 5s,iPhone,248.67,218.19,236.77,11.9,-18.58,5.03,-7.85,yes
+315,25,Irene,6,Samsung Galaxy S6,Samsung,263.4,218.95,236.77,26.63,-17.82,11.25,-7.53,yes
+316,25,Kristof Hovaten,11,Android S6,Android,252.98,232.16,236.77,16.22,-4.61,6.85,-1.95,yes
+317,25,Rae Taylor-Burns,13,Iphone 6,iPhone,251.71,226.06,236.77,14.95,-10.71,6.31,-4.52,yes
+318,25,Jonathan Williams,9,Google Nexus,Google Nexus,241.81,225.55,236.77,5.04,-11.21,2.13,-4.74,yes
+319,25,Jason White,7,Iphone 6,iPhone,266.95,240.28,236.77,30.19,3.52,12.75,1.49,yes
+320,25,Anna Neuman,1,Iphone,iPhone,299.97,238.51,236.77,63.21,1.74,26.7,0.73,yes
+321,25,Brian,2,Iphone 6,iPhone,250.44,233.93,236.77,13.68,-2.83,5.78,-1.2,yes
+322,25,Diego,4,Iphone 6,iPhone,213.36,240.79,236.77,-23.41,4.03,-9.89,1.7,yes
+323,25,Gavin,5,Samsung Galaxy S6,Samsung,373.89,239.78,236.77,137.12,3.01,57.91,1.27,yes
+324,25,Josh Graybiel,10,Iphone 6,iPhone,219.46,207.77,236.77,-17.31,-28.99,-7.31,-12.25,yes
+325,26,Kristof Hovaten,11,Android S6,Android,229.11,229.11,218,11.11,11.11,5.1,5.1,yes
+326,26,Jason White,7,Iphone 6,iPhone,310.64,212.85,218,92.64,-5.15,42.5,-2.36,yes
+327,26,Jonathan Williams,9,Google Nexus,Google Nexus,233.17,226.06,218,15.17,8.06,6.96,3.7,yes
+328,26,Briana Sears,3,Iphone 5,iPhone,258.32,231.14,218,40.32,13.14,18.49,6.03,yes
+329,26,Diego,4,Iphone 6,iPhone,217.42,237.49,218,-0.58,19.49,-0.26,8.94,yes
+330,26,Jessica Twining,8,Iphone 5s,iPhone,216.92,210.31,218,-1.08,-7.69,-0.5,-3.53,yes
+331,26,Irene,6,Samsung Galaxy S6,Samsung,219.71,218.69,218,1.71,0.69,0.78,0.32,yes
+332,26,Paige,12,Iphone 5,iPhone,279.4,227.84,218,61.4,9.84,28.17,4.51,yes
+333,26,Gavin,5,Samsung Galaxy S6,Samsung,270.26,227.33,218,52.26,9.33,23.97,4.28,yes
+334,26,Anna Neuman,1,Iphone,iPhone,281.18,220.47,218,63.18,2.47,28.98,1.13,yes
+335,26,Rae Taylor-Burns,13,Iphone 6,iPhone,208.53,224.79,218,-9.47,6.79,-4.34,3.11,yes
+336,26,Brian,2,Iphone 6,iPhone,229.62,220.47,218,11.62,2.47,5.33,1.13,yes
+337,26,Josh Graybiel,10,Iphone 6,iPhone,226.57,226.57,218,8.57,8.57,3.93,3.93,yes
+338,27,Paige,12,Iphone 5,iPhone,206.76,228.6,229.51,-22.76,-0.91,-9.91,-0.4,yes
+339,27,Briana Sears,3,Iphone 5,iPhone,276.86,223.77,229.51,47.35,-5.74,20.63,-2.5,yes
+340,27,Kristof Hovaten,11,Android S6,Android,325.88,222.76,229.51,96.37,-6.75,41.99,-2.94,yes
+341,27,Jonathan Williams,9,Google Nexus,Google Nexus,229.11,229.11,229.51,-0.4,-0.4,-0.18,-0.18,yes
+342,27,Jason White,7,Iphone 6,iPhone,251.71,224.28,229.51,22.2,-5.23,9.67,-2.28,yes
+343,27,Diego,4,Iphone 6,iPhone,241.81,232.16,229.51,12.3,2.64,5.36,1.15,yes
+344,27,Jessica Twining,8,Iphone 5s,iPhone,209.55,203.2,229.51,-19.96,-26.31,-8.7,-11.46,yes
+345,27,Irene,6,Samsung Galaxy S6,Samsung,213.11,200.15,229.51,-16.41,-29.36,-7.15,-12.79,yes
+346,27,Josh Graybiel,10,Iphone 6,iPhone,318.01,220.22,229.51,88.5,-9.29,38.56,-4.05,yes
+347,27,Gavin,5,Samsung Galaxy S6,Samsung,241.3,241.3,229.51,11.79,11.79,5.14,5.14,yes
+348,27,Rae Taylor-Burns,13,Iphone 6,iPhone,267.21,217.42,229.51,37.7,-12.09,16.42,-5.27,yes
+349,27,Brian,2,Iphone 6,iPhone,250.19,235.71,229.51,20.68,6.2,9.01,2.7,yes
+350,27,Anna Neuman,1,Iphone,iPhone,226.57,221.23,229.51,-2.94,-8.28,-1.28,-3.61,yes
+351,28,Kristof Hovaten,11,Android S6,Android,244.86,244.86,238,6.86,6.86,2.88,2.88,yes
+352,28,Paige,12,Iphone 5,iPhone,233.68,238.76,238,-4.32,0.76,-1.82,0.32,yes
+353,28,Jessica Twining,8,Iphone 5s,iPhone,221.74,211.84,238,-16.26,-26.16,-6.83,-10.99,yes
+354,28,Jonathan Williams,9,Google Nexus,Google Nexus,324.1,243.08,238,86.1,5.08,36.18,2.13,yes
+355,28,Brian,2,Iphone 6,iPhone,248.67,240.03,238,10.67,2.03,4.48,0.85,yes
+356,28,Briana Sears,3,Iphone 5,iPhone,232.92,257.81,238,-5.08,19.81,-2.14,8.32,yes
+357,28,Anna Neuman,1,Iphone,iPhone,346.2,249.17,238,108.2,11.17,45.46,4.69,yes
+358,28,Rae Taylor-Burns,13,Iphone 6,iPhone,169.16,221.49,238,-68.84,-16.51,-28.92,-6.94,yes
+359,28,Josh Graybiel,10,Iphone 6,iPhone,239.52,227.84,238,1.52,-10.16,0.64,-4.27,yes
+360,28,Jason White,7,Iphone 6,iPhone,268.48,251.97,238,30.48,13.97,12.81,5.87,yes
+361,28,Gavin,5,Samsung Galaxy S6,Samsung,293.88,251.21,238,55.88,13.21,23.48,5.55,yes
+362,28,Irene,6,Samsung Galaxy S6,Samsung,238.51,218.69,238,0.51,-19.31,0.21,-8.11,yes
+363,28,Diego,4,Iphone 6,iPhone,206.25,238,238,-31.75,0,-13.34,0,yes
+364,29,Briana Sears,3,Iphone 5,iPhone,252.48,210.57,226.52,25.96,-15.95,11.46,-7.04,yes
+365,29,Paige,12,Iphone 5,iPhone,244.09,226.31,226.52,17.58,-0.2,7.76,-0.09,yes
+366,29,Jason White,7,Iphone 6,iPhone,204.72,219.96,226.52,-21.79,-6.55,-9.62,-2.89,yes
+367,29,Jonathan Williams,9,Google Nexus,Google Nexus,261.37,212.85,226.52,34.85,-13.67,15.38,-6.03,yes
+368,29,Rae Taylor-Burns,13,Iphone 6,iPhone,216.15,208.79,226.52,-10.36,-17.73,-4.58,-7.83,yes
+369,29,Brian,2,Iphone 6,iPhone,184.91,223.52,226.52,-41.61,-3,-18.37,-1.32,yes
+370,29,Irene,6,Samsung Galaxy S6,Samsung,225.3,218.44,226.52,-1.22,-8.08,-0.54,-3.57,yes
+371,29,Jessica Twining,8,Iphone 5s,iPhone,208.03,208.03,226.52,-18.49,-18.49,-8.16,-8.16,yes
+372,29,Josh Graybiel,10,Iphone 6,iPhone,251.46,211.07,226.52,24.94,-15.44,11.01,-6.82,yes
+373,29,Diego,4,Iphone 6,iPhone,234.95,234.95,226.52,8.43,8.43,3.72,3.72,yes
+374,29,Kristof Hovaten,11,Android S6,Android,238,238,226.52,11.48,11.48,5.07,5.07,yes
+375,29,Gavin,5,Samsung Galaxy S6,Samsung,205.99,187.71,226.52,-20.52,-38.81,-9.06,-17.13,yes
+376,29,Anna Neuman,1,Iphone,iPhone,220.73,220.73,226.52,-5.79,-5.79,-2.56,-2.56,yes
+377,30,Jonathan Williams,9,Google Nexus,Google Nexus,143.76,178.82,195,-51.24,-16.18,-26.27,-8.3,yes
+378,30,Kristof Hovaten,11,Android S6,Android,194.31,194.31,195,-0.69,-0.69,-0.35,-0.35,yes
+379,30,Jessica Twining,8,Iphone 5s,iPhone,187.2,181.36,195,-7.8,-13.64,-4,-7,yes
+380,30,Irene,6,Samsung Galaxy S6,Samsung,168.15,183.9,195,-26.85,-11.1,-13.77,-5.69,yes
+381,30,Rae Taylor-Burns,13,Iphone 6,iPhone,185.67,185.67,195,-9.33,-9.33,-4.78,-4.78,yes
+382,30,Brian,2,Iphone 6,iPhone,205.74,199.64,195,10.74,4.64,5.51,2.38,yes
+383,30,Jason White,7,Iphone 6,iPhone,202.95,202.95,195,7.95,7.95,4.07,4.07,yes
+384,30,Diego,4,Iphone 6,iPhone,241.3,230.38,195,46.3,35.38,23.74,18.14,yes
+385,30,Paige,12,Iphone 5,iPhone,187.71,185.67,195,-7.29,-9.33,-3.74,-4.78,yes
+386,30,Briana Sears,3,Iphone 5,iPhone,196.85,194.56,195,1.85,-0.44,0.95,-0.22,yes
+387,30,Josh Graybiel,10,Iphone 6,iPhone,194.82,185.93,195,-0.18,-9.07,-0.09,-4.65,yes
+388,30,Gavin,5,Samsung Galaxy S6,Samsung,209.3,188.98,195,14.3,-6.02,7.33,-3.09,yes
+389,30,Anna Neuman,1,Iphone,iPhone,224.79,201.93,195,29.79,6.93,15.28,3.55,yes
+390,31,Jonathan Williams,9,Google Nexus,Google Nexus,231.9,231.9,240.17,-8.27,-8.27,-3.44,-3.44,yes
+391,31,Rae Taylor-Burns,13,Iphone 6,iPhone,278.64,231.39,240.17,38.47,-8.78,16.02,-3.65,yes
+392,31,Brian,2,Iphone 6,iPhone,236.47,236.47,240.17,-3.7,-3.7,-1.54,-1.54,yes
+393,31,Jessica Twining,8,Iphone 5s,iPhone,239.78,209.3,240.17,-0.39,-30.87,-0.16,-12.85,yes
+394,31,Anna Neuman,1,Iphone,iPhone,229.36,229.36,240.17,-10.81,-10.81,-4.5,-4.5,yes
+395,31,Irene,6,Samsung Galaxy S6,Samsung,251.21,248.41,240.17,11.04,8.24,4.6,3.43,yes
+396,31,Briana Sears,3,Iphone 5,iPhone,286,230.63,240.17,45.83,-9.54,19.08,-3.97,yes
+397,31,Jason White,7,Iphone 6,iPhone,235.71,235.71,240.17,-4.46,-4.46,-1.86,-1.86,yes
+398,31,Gavin,5,Samsung Galaxy S6,Samsung,312.42,243.08,240.17,72.25,2.91,30.08,1.21,yes
+399,31,Josh Graybiel,10,Iphone 6,iPhone,313.69,204.72,240.17,73.52,-35.45,30.61,-14.76,yes
+400,31,Kristof Hovaten,11,Android S6,Android,272.54,223.77,240.17,32.37,-16.4,13.48,-6.83,yes
+401,31,Diego,4,Iphone 6,iPhone,235.46,235.46,240.17,-4.71,-4.71,-1.96,-1.96,yes
+402,31,Paige,12,Iphone 5,iPhone,250.19,231.9,240.17,10.02,-8.27,4.17,-3.44,yes
+403,32,Jessica Twining,8,Iphone 5s,iPhone,204.22,204.22,225,-20.78,-20.78,-9.24,-9.24,yes
+404,32,Brian,2,Iphone 6,iPhone,204.22,217.17,225,-20.78,-7.83,-9.24,-3.48,yes
+405,32,Briana Sears,3,Iphone 5,iPhone,228.85,222.25,225,3.85,-2.75,1.71,-1.22,yes
+406,32,Jonathan Williams,9,Google Nexus,Google Nexus,223.77,218.19,225,-1.23,-6.81,-0.54,-3.03,yes
+407,32,Kristof Hovaten,11,Android S6,Android,226.57,220.98,225,1.57,-4.02,0.7,-1.79,yes
+408,32,Jason White,7,Iphone 6,iPhone,223.77,223.77,225,-1.23,-1.23,-0.54,-0.54,yes
+409,32,Anna Neuman,1,Iphone,iPhone,225.81,225.81,225,0.81,0.81,0.36,0.36,yes
+410,32,Josh Graybiel,10,Iphone 6,iPhone,222.5,206.5,225,-2.5,-18.5,-1.11,-8.22,yes
+411,32,Diego,4,Iphone 6,iPhone,239.27,225.81,225,14.27,0.81,6.34,0.36,yes
+412,32,Rae Taylor-Burns,13,Iphone 6,iPhone,230.38,230.38,225,5.38,5.38,2.39,2.39,yes
+413,32,Paige,12,Iphone 5,iPhone,257.81,224.54,225,32.81,-0.46,14.58,-0.21,yes
+414,32,Gavin,5,Samsung Galaxy S6,Samsung,227.84,212.85,225,2.84,-12.15,1.26,-5.4,yes
+415,32,Irene,6,Samsung Galaxy S6,Samsung,222,222,225,-3,-3,-1.34,-1.34,yes
+416,33,Rae Taylor-Burns,13,Iphone 6,iPhone,206.76,215.65,217,-10.24,-1.35,-4.72,-0.62,yes
+417,33,Jessica Twining,8,Iphone 5s,iPhone,261.87,202.69,217,44.87,-14.31,20.68,-6.59,yes
+418,33,Brian,2,Iphone 6,iPhone,245.36,223.01,217,28.36,6.01,13.07,2.77,yes
+419,33,Jason White,7,Iphone 6,iPhone,245.87,203.71,217,28.87,-13.29,13.31,-6.13,yes
+420,33,Josh Graybiel,10,Iphone 6,iPhone,241.3,215.39,217,24.3,-1.61,11.2,-0.74,yes
+421,33,Diego,4,Iphone 6,iPhone,231.9,219.46,217,14.9,2.46,6.87,1.13,yes
+422,33,Jonathan Williams,9,Google Nexus,Google Nexus,225.55,210.06,217,8.55,-6.94,3.94,-3.2,yes
+423,33,Kristof Hovaten,11,Android S6,Android,241.55,213.36,217,24.55,-3.64,11.32,-1.68,yes
+424,33,Briana Sears,3,Iphone 5,iPhone,306.32,218.69,217,89.32,1.69,41.16,0.78,yes
+425,33,Irene,6,Samsung Galaxy S6,Samsung,209.8,190.5,217,-7.2,-26.5,-3.32,-12.21,yes
+426,33,Anna Neuman,1,Iphone,iPhone,227.84,213.11,217,10.84,-3.89,4.99,-1.79,yes
+427,33,Paige,12,Iphone 5,iPhone,311.4,212.6,217,94.4,-4.4,43.5,-2.03,yes
+428,33,Gavin,5,Samsung Galaxy S6,Samsung,219.71,182.63,217,2.71,-34.37,1.25,-15.84,yes
+429,34,Brian,2,Iphone 6,iPhone,244.86,197.36,206,38.86,-8.64,18.86,-4.2,yes
+430,34,Jason White,7,Iphone 6,iPhone,231.65,206.25,206,25.65,0.25,12.45,0.12,yes
+431,34,Jonathan Williams,9,Google Nexus,Google Nexus,247.65,208.28,206,41.65,2.28,20.22,1.11,yes
+432,34,Rae Taylor-Burns,13,Iphone 6,iPhone,213.61,205.23,206,7.61,-0.77,3.7,-0.37,yes
+433,34,Irene,6,Samsung Galaxy S6,Samsung,267.21,213.36,206,61.21,7.36,29.71,3.57,yes
+434,34,Jessica Twining,8,Iphone 5s,iPhone,195.83,195.83,206,-10.17,-10.17,-4.93,-4.93,yes
+435,34,Diego,4,Iphone 6,iPhone,288.04,212.09,206,82.04,6.09,39.82,2.96,yes
+436,34,Paige,12,Iphone 5,iPhone,234.7,211.84,206,28.7,5.84,13.93,2.83,yes
+437,34,Josh Graybiel,10,Iphone 6,iPhone,322.83,222.25,206,116.83,16.25,56.72,7.89,yes
+438,34,Kristof Hovaten,11,Android S6,Android,266.19,220.73,206,60.19,14.73,29.22,7.15,yes
+439,34,Anna Neuman,1,Iphone,iPhone,248.92,229.11,206,42.92,23.11,20.83,11.22,yes
+440,34,Briana Sears,3,Iphone 5,iPhone,234.19,225.04,206,28.19,19.04,13.68,9.24,yes
+441,34,Gavin,5,Samsung Galaxy S6,Samsung,357.89,222,206,151.89,16,73.73,7.77,yes
+442,35,Rae Taylor-Burns,13,Iphone 6,iPhone,258.06,231.65,243,15.06,-11.35,6.2,-4.67,yes
+443,35,Jessica Twining,8,Iphone 5s,iPhone,244.86,219.71,243,1.86,-23.29,0.76,-9.58,yes
+444,35,Josh Graybiel,10,Iphone 6,iPhone,250.95,236.73,243,7.95,-6.27,3.27,-2.58,yes
+445,35,Briana Sears,3,Iphone 5,iPhone,263.91,229.62,243,20.91,-13.38,8.6,-5.51,yes
+446,35,Jason White,7,Iphone 6,iPhone,239.52,239.52,243,-3.48,-3.48,-1.43,-1.43,yes
+447,35,Brian,2,Iphone 6,iPhone,243.33,231.39,243,0.33,-11.61,0.14,-4.78,yes
+448,35,Kristof Hovaten,11,Android S6,Android,271.78,245.36,243,28.78,2.36,11.84,0.97,yes
+449,35,Diego,4,Iphone 6,iPhone,228.85,237.49,243,-14.15,-5.51,-5.82,-2.27,yes
+450,35,Anna Neuman,1,Iphone,iPhone,293.88,239.01,243,50.88,-3.99,20.94,-1.64,yes
+451,35,Irene,6,Samsung Galaxy S6,Samsung,252.48,239.78,243,9.48,-3.22,3.9,-1.33,yes
+452,35,Paige,12,Iphone 5,iPhone,273.05,230.12,243,30.05,-12.88,12.37,-5.3,yes
+453,35,Gavin,5,Samsung Galaxy S6,Samsung,246.38,241.81,243,3.38,-1.19,1.39,-0.49,yes
+454,35,Jonathan Williams,9,Google Nexus,Google Nexus,238.25,224.79,243,-4.75,-18.21,-1.95,-7.49,yes
+455,36,Brian,2,Iphone 6,iPhone,220.73,220.73,202,18.73,18.73,9.27,9.27,yes
+456,36,Jason White,7,Iphone 6,iPhone,231.14,231.14,202,29.14,29.14,14.43,14.43,yes
+457,36,Irene,6,Samsung Galaxy S6,Samsung,287.78,210.06,202,85.78,8.06,42.47,3.99,yes
+458,36,Diego,4,Iphone 6,iPhone,207.01,197.61,202,5.01,-4.39,2.48,-2.17,yes
+459,36,Briana Sears,3,Iphone 5,iPhone,227.84,207.01,202,25.84,5.01,12.79,2.48,yes
+460,36,Jonathan Williams,9,Google Nexus,Google Nexus,257.05,207.26,202,55.05,5.26,27.25,2.61,yes
+461,36,Josh Graybiel,10,Iphone 6,iPhone,216.41,201.42,202,14.41,-0.58,7.13,-0.29,yes
+462,36,Anna Neuman,1,Iphone,iPhone,209.3,189.23,202,7.3,-12.77,3.61,-6.32,yes
+463,36,Kristof Hovaten,11,Android S6,Android,292.86,213.87,202,90.86,11.87,44.98,5.88,yes
+464,36,Rae Taylor-Burns,13,Iphone 6,iPhone,170.94,204.22,202,-31.06,2.22,-15.38,1.1,yes
+465,36,Paige,12,Iphone 5,iPhone,305.82,208.03,202,103.82,6.03,51.39,2.98,yes
+466,36,Gavin,5,Samsung Galaxy S6,Samsung,311.91,198.63,202,109.91,-3.37,54.41,-1.67,yes
+467,36,Jessica Twining,8,Iphone 5s,iPhone,250.44,187.45,202,48.44,-14.55,23.98,-7.2,yes
+468,37,Jason White,7,Iphone 6,iPhone,264.16,209.3,200,64.16,9.3,32.08,4.65,yes
+469,37,Rae Taylor-Burns,13,Iphone 6,iPhone,203.2,203.2,200,3.2,3.2,1.6,1.6,yes
+470,37,Jessica Twining,8,Iphone 5s,iPhone,191.26,191.26,200,-8.74,-8.74,-4.37,-4.37,yes
+471,37,Irene,6,Samsung Galaxy S6,Samsung,219.96,208.53,200,19.96,8.53,9.98,4.27,yes
+472,37,Brian,2,Iphone 6,iPhone,283.21,200.91,200,83.21,0.91,41.61,0.46,yes
+473,37,Kristof Hovaten,11,Android S6,Android,201.42,211.84,200,1.42,11.84,0.71,5.92,yes
+474,37,Briana Sears,3,Iphone 5,iPhone,281.18,207.52,200,81.18,7.52,40.59,3.76,yes
+475,37,Josh Graybiel,10,Iphone 6,iPhone,195.33,210.57,200,-4.67,10.57,-2.34,5.28,yes
+476,37,Jonathan Williams,9,Google Nexus,Google Nexus,233.43,206.76,200,33.43,6.76,16.71,3.38,yes
+477,37,Anna Neuman,1,Iphone,iPhone,271.53,202.44,200,71.53,2.44,35.76,1.22,yes
+478,37,Diego,4,Iphone 6,iPhone,215.39,204.72,200,15.39,4.72,7.7,2.36,yes
+479,37,Gavin,5,Samsung Galaxy S6,Samsung,300.99,205.99,200,100.99,5.99,50.5,3,yes
+480,37,Paige,12,Iphone 5,iPhone,303.53,204.47,200,103.53,4.47,51.77,2.24,yes
+481,38,Jason White,7,Iphone 6,iPhone,240.54,202.44,206,34.54,-3.56,16.77,-1.73,yes
+482,38,Irene,6,Samsung Galaxy S6,Samsung,311.66,244.6,206,105.66,38.6,51.29,18.74,yes
+483,38,Paige,12,Iphone 5,iPhone,252.48,211.58,206,46.48,5.58,22.56,2.71,yes
+484,38,Rae Taylor-Burns,13,Iphone 6,iPhone,129.54,230.12,206,-76.46,24.12,-37.12,11.71,yes
+485,38,Josh Graybiel,10,Iphone 6,iPhone,252.73,196.6,206,46.73,-9.4,22.68,-4.57,yes
+486,38,Briana Sears,3,Iphone 5,iPhone,221.74,217.93,206,15.74,11.93,7.64,5.79,yes
+487,38,Jessica Twining,8,Iphone 5s,iPhone,270.76,200.66,206,64.76,-5.34,31.44,-2.59,yes
+488,38,Diego,4,Iphone 6,iPhone,259.59,214.88,206,53.59,8.88,26.01,4.31,yes
+489,38,Anna Neuman,1,Iphone,iPhone,197.36,197.36,206,-8.64,-8.64,-4.2,-4.2,yes
+490,38,Kristof Hovaten,11,Android S6,Android,258.06,214.88,206,52.06,8.88,25.27,4.31,yes
+491,38,Gavin,5,Samsung Galaxy S6,Samsung,251.46,211.84,206,45.46,5.84,22.07,2.83,yes
+492,38,Brian,2,Iphone 6,iPhone,216.15,207.01,206,10.15,1.01,4.93,0.49,yes
+493,38,Jonathan Williams,9,Google Nexus,Google Nexus,259.33,206.25,206,53.33,0.25,25.89,0.12,yes
+494,39,Jason White,7,Iphone 6,iPhone,222,222,207,15,15,7.24,7.24,yes
+495,39,Brian,2,Iphone 6,iPhone,209.04,209.04,207,2.04,2.04,0.99,0.99,yes
+496,39,Paige,12,Iphone 5,iPhone,215.65,215.65,207,8.65,8.65,4.18,4.18,yes
+497,39,Kristof Hovaten,11,Android S6,Android,220.22,220.22,207,13.22,13.22,6.39,6.39,yes
+498,39,Diego,4,Iphone 6,iPhone,212.09,202.95,207,5.09,-4.05,2.46,-1.96,yes
+499,39,Anna Neuman,1,Iphone,iPhone,235.2,207.77,207,28.2,0.77,13.63,0.37,yes
+500,39,Josh Graybiel,10,Iphone 6,iPhone,224.28,224.28,207,17.28,17.28,8.35,8.35,yes
+501,39,Jonathan Williams,9,Google Nexus,Google Nexus,303.02,228.35,207,96.02,21.35,46.39,10.31,yes
+502,39,Irene,6,Samsung Galaxy S6,Samsung,258.83,235.2,207,51.83,28.2,25.04,13.63,yes
+503,39,Jessica Twining,8,Iphone 5s,iPhone,220.98,203.2,207,13.98,-3.8,6.75,-1.84,yes
+504,39,Briana Sears,3,Iphone 5,iPhone,226.57,211.33,207,19.57,4.33,9.45,2.09,yes
+505,39,Gavin,5,Samsung Galaxy S6,Samsung,314.45,210.31,207,107.45,3.31,51.91,1.6,yes
+506,39,Rae Taylor-Burns,13,Iphone 6,iPhone,184.4,184.4,207,-22.6,-22.6,-10.92,-10.92,yes
+507,40,Diego,4,Iphone 6,iPhone,223.77,218.44,218,5.77,0.44,2.65,0.2,yes
+508,40,Irene,6,Samsung Galaxy S6,Samsung,221.49,244.6,218,3.49,26.6,1.6,12.2,yes
+509,40,Josh Graybiel,10,Iphone 6,iPhone,225.55,211.58,218,7.55,-6.42,3.46,-2.94,yes
+510,40,Anna Neuman,1,Iphone,iPhone,237.74,203.2,218,19.74,-14.8,9.06,-6.79,yes
+511,40,Brian,2,Iphone 6,iPhone,226.82,214.38,218,8.82,-3.62,4.05,-1.66,yes
+512,40,Jason White,7,Iphone 6,iPhone,199.9,199.9,218,-18.1,-18.1,-8.3,-8.3,yes
+513,40,Briana Sears,3,Iphone 5,iPhone,227.33,197.36,218,9.33,-20.64,4.28,-9.47,yes
+514,40,Jonathan Williams,9,Google Nexus,Google Nexus,256.54,211.58,218,38.54,-6.42,17.68,-2.94,yes
+515,40,Paige,12,Iphone 5,iPhone,308.1,213.87,218,90.1,-4.13,41.33,-1.9,yes
+516,40,Rae Taylor-Burns,13,Iphone 6,iPhone,197.87,200.66,218,-20.13,-17.34,-9.24,-7.95,yes
+517,40,Kristof Hovaten,11,Android S6,Android,216.15,212.85,218,-1.85,-5.15,-0.85,-2.36,yes
+518,40,Gavin,5,Samsung Galaxy S6,Samsung,227.84,220.73,218,9.84,2.73,4.51,1.25,yes
+519,40,Jessica Twining,8,Iphone 5s,iPhone,210.57,201.68,218,-7.43,-16.32,-3.41,-7.49,yes
+520,41,Kristof Hovaten,11,Android S6,Android,224.03,224.03,225,-0.97,-0.97,-0.43,-0.43,yes
+521,41,Jason White,7,Iphone 6,iPhone,222.76,222.76,225,-2.24,-2.24,-1,-1,yes
+522,41,Briana Sears,3,Iphone 5,iPhone,240.54,220.73,225,15.54,-4.27,6.91,-1.9,yes
+523,41,Jonathan Williams,9,Google Nexus,Google Nexus,241.05,209.3,225,16.05,-15.7,7.13,-6.98,yes
+524,41,Diego,4,Iphone 6,iPhone,254.76,220.47,225,29.76,-4.53,13.23,-2.01,yes
+525,41,Brian,2,Iphone 6,iPhone,251.46,217.93,225,26.46,-7.07,11.76,-3.14,yes
+526,41,Anna Neuman,1,Iphone,iPhone,335.03,222.76,225,110.03,-2.24,48.9,-1,yes
+527,41,Gavin,5,Samsung Galaxy S6,Samsung,370.08,226.57,225,145.08,1.57,64.48,0.7,yes
+528,41,Irene,6,Samsung Galaxy S6,Samsung,238.51,210.06,225,13.51,-14.94,6,-6.64,yes
+529,41,Josh Graybiel,10,Iphone 6,iPhone,215.65,226.06,225,-9.35,1.06,-4.16,0.47,yes
+530,41,Paige,12,Iphone 5,iPhone,262.89,217.17,225,37.89,-7.83,16.84,-3.48,yes
+531,41,Rae Taylor-Burns,13,Iphone 6,iPhone,242.82,215.65,225,17.82,-9.35,7.92,-4.16,yes
+532,41,Jessica Twining,8,Iphone 5s,iPhone,264.16,214.63,225,39.16,-10.37,17.4,-4.61,yes
+533,42,Diego,4,Iphone 6,iPhone,211.84,199.64,201,10.84,-1.36,5.39,-0.67,yes
+534,42,Kristof Hovaten,11,Android S6,Android,203.2,203.2,201,2.2,2.2,1.09,1.09,yes
+535,42,Briana Sears,3,Iphone 5,iPhone,200.41,200.41,201,-0.59,-0.59,-0.3,-0.3,yes
+536,42,Anna Neuman,1,Iphone,iPhone,188.98,182.88,201,-12.02,-18.12,-5.98,-9.01,yes
+537,42,Jason White,7,Iphone 6,iPhone,187.2,187.2,201,-13.8,-13.8,-6.87,-6.87,yes
+538,42,Irene,6,Samsung Galaxy S6,Samsung,210.82,200.15,201,9.82,-0.85,4.89,-0.42,yes
+539,42,Josh Graybiel,10,Iphone 6,iPhone,208.79,208.79,201,7.79,7.79,3.87,3.87,yes
+540,42,Paige,12,Iphone 5,iPhone,195.83,195.83,201,-5.17,-5.17,-2.57,-2.57,yes
+541,42,Rae Taylor-Burns,13,Iphone 6,iPhone,199.64,199.64,201,-1.36,-1.36,-0.67,-0.67,yes
+542,42,Jonathan Williams,9,Google Nexus,Google Nexus,213.87,186.94,201,12.87,-14.06,6.4,-6.99,yes
+543,42,Brian,2,Iphone 6,iPhone,213.11,201.42,201,12.11,0.42,6.02,0.21,yes
+544,42,Jessica Twining,8,Iphone 5s,iPhone,191.52,178.82,201,-9.48,-22.18,-4.72,-11.04,yes
+545,42,Gavin,5,Samsung Galaxy S6,Samsung,287.27,205.74,201,86.27,4.74,42.92,2.36,yes

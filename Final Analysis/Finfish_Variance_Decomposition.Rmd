@@ -1,0 +1,845 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+---
+title: "Finfish Variance Decomposition"
+author: "Jack Elstner"
+date: "2/27/2023"
+output: pdf_document
+
+In this document, I use Bayesian multilevel models to perform a variance decomposition on the Poseidon finfish estimates. This technique allows me to partition total variance in length estimtates into different components (user variance, species variance). This will allow me to identify factors that explain the most significant portion of the variation in Poseidion performance. I am most interested in calculating relative variance (percentages)
+
+Questions:
+
+1. Is there a common observation error, or does observation error differ by humans?
+2. Is there a common observation error, or does observation error differ by species?
+
+
+This chunk of code reads in the data and performs necessary data cleaning.
+```{r}
+library(rethinking)
+
+# read in cleaned finfish data
+finfish.all <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/CaliforniaFinfish_March2_Merged&Cleaned.csv")
+
+finfish <- subset(finfish.all, Include == "yes")
+
+# read in angler hand meaasurements
+AnglerHandMeasurements <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/AnglerHandMeasurements.csv")
+
+finfish <- merge(finfish, AnglerHandMeasurements, by = c("AnglerID", "TagID"))
+
+# add fish species index variable
+finfish$SpeciesID <- as.integer(as.factor(finfish$Species))
+
+# add FishID.b index variable
+finfish$FishID.b <- as.integer(as.factor(finfish$TagID))
+
+# create AnglerNumber variable that reassigns an angler number giving angler a number 1 through 9
+finfish$AnglerNumber <- as.integer(as.factor(finfish$AnglerID))
+```
+
+
+
+Model Version 1: Modeling Unbiased Variance Across Measurement Types
+```{r}
+# make z-score function
+zScore <- function(x) {
+  result <- (x - mean(x))/sd(x)
+  return(result)
+}
+
+# create data list with z-scored data
+datZ <- list(
+  B = zScore(finfish$Angler_Hand_Measurement_TL_mm),
+  O = zScore(finfish$Algorithm_Estimate_mm), 
+  A = zScore(finfish$Adjusted_Estimate_mm),
+  FishID = finfish$FishID.b 
+)
+
+# fit model
+
+# TrueSize[FishID] is the true length of any given fish
+# B is Board Measurements
+
+M1 <- ulam(
+  alist(
+    TrueSize[FishID] ~ dnorm(0, 2),
+    B ~ dnorm(TrueSize[FishID], Bsig), # board measurements are distributed without bias around some true measurement of a fish 
+    O ~ dnorm(TrueSize[FishID], Osig), # original Poseidon estimates are distributed without bias around some true measurement of a fish
+    A ~ dnorm(TrueSize[FishID], Asig), # adjusted Poseidon estimates are distrubuted without bias around some true measurement of a fish
+    Bsig ~ dexp(1),
+    Osig ~ dexp(1),
+    Asig ~ dexp(1)
+  ), data = datZ, chains = 4 
+)
+
+# create a traceplot of model 1 to assess convergence
+traceplot(M1)
+
+# extract samples
+PostM1 <- extract.samples(M1, n = 10000)
+
+mean(PostM1$Bsig)*
+
+###### Figure Generation
+# load packages
+library(ggplot2)
+library(reshape)
+
+M1.var <- data.frame(
+  PostM1$Osig,
+  PostM1$Asig,
+  PostM1$Bsig
+)
+
+Names <- c("Original Estimate", "Adjusted Estimates", "Hand Measurements")
+names(M1.var) <- Names
+M1.var <- melt(M1.var)
+names2 <- c("Measurement", "Variance")
+names(M1.var) <- names2
+
+cols <- c("gray", "red", "blue")
+
+# create density plots of variance estimates across fisheries
+M1.var_plot = ggplot(data = M1.var, aes(x=Variance, fill=Measurement)) +
+  geom_density(alpha=.25) +
+  ggtitle("Length Measurement Variance Across Measurement Types") +
+  labs(y= "Density", x = "Posterior Variance Estimates (z-score)") +
+  scale_fill_manual(values = cols)
+
+M1.var_plot + theme(plot.title = element_text(hjust = 0.5))
+
+
+# calculate MAP and 95% HPDI for each posterior variance estimate
+# MAP
+round(chainmode(PostM1$Bsig), digits = 3)*sd(finfish$Angler_Hand_Measurement_TL_mm) # Bsig = 0.156
+round(chainmode(PostM1$Osig), digits = 3)*sd(finfish$Angler_Hand_Measurement_TL_mm) # Osig = 0.613
+round(chainmode(PostM1$Asig), digits = 3)*sd(finfish$Angler_Hand_Measurement_TL_mm) # Asig = 0.242
+
+# 95% HPDI
+round(HPDI(PostM1$Bsig, prob = 0.95), digits = 3) # Bsig = [0.142, 0.169] 
+round(HPDI(PostM1$Osig, prob = 0.95), digits = 3) # Osig = [0.563, 0.665]
+round(HPDI(PostM1$Asig, prob = 0.95), digits = 3) # Asig = [0.221, 0.262]
+
+
+# posterior predictive check???
+
+# extract samples
+PostM1 <- extract.samples(M1, n = 10000)
+
+# compute mean posterior estimate of true size for each fish
+PostMeanTS <- apply(PostM1$TrueSize, 2, mean)
+
+# Compute mean observed hand measurement for each fish
+obs <- data.frame(finfish$FishID.b, zScore(finfish$Scientist_Hand_Measured_TL_mm))
+
+ObsMeanTS <- apply(obs$zScore.finfish.Scientist_Hand_Measured_TL_mm.[obs$zScore.finfish.Scientist_Hand_Measured_TL_mm.], 2, mean)
+
+plot(meanTS)
+points(zScore(finfish$Scientist_Hand_Measured_TL_mm), col="red")
+```
+
+
+In this code chunk, we extract the modeled true size estimates from Model 1 for each fish and use these values to re-calculate total error and percent error metrics for finfish
+```{r}
+# here, we create a vector with the model-derived length estimates for each fish
+# then, we add model.derived estimates to main finfish data frame
+ModelLengths.z <- numeric()
+for(i in 1:40) {
+  ModelLengths.z <- c(ModelLengths.z, (round(chainmode(PostM1$TrueSize[ , i]), digits = 2)))
+}
+
+# transform from z-score to length measurements in mm
+ModelLengths.mm <- (ModelLengths.z*sd(finfish$Angler_Hand_Measurement_TL_mm)) + mean(finfish$Angler_Hand_Measurement_TL_mm)
+ModelLengths.mm
+# make data frame with FishID.b and model-derived True Size Estimates
+FishID.b <- 1:40
+ModeledLengths.df <- data.frame(FishID.b, ModelLengths.mm)
+
+# merge modeled lengths estimates into main finfish data frame
+finfish <- merge(finfish, ModeledLengths.df, by = "FishID.b")
+
+# re-calculate Total Error and Percent Error Metrics
+finfish$New_Algorithm_Total_Error_mm <- finfish$Algorithm_Estimate_mm - finfish$ModelLengths.mm
+finfish$New_Adjusted_Total_Error_mm <- finfish$Adjusted_Estimate_mm - finfish$ModelLengths.mm
+finfish$New_Algorithm_Percent_Error <- (finfish$New_Algorithm_Total_Error_mm/finfish$ModelLengths.mm)*100
+finfish$New_Adjusted_Percent_Error <- (finfish$New_Adjusted_Total_Error_mm/finfish$ModelLengths.mm)*100
+
+write.csv(finfish,file='/Users/kirstenelstner/Desktop/finfish_model_lengths.csv')
+```
+
+
+
+
+Model Version 2 - Incorporating Bias (data z-scored)
+
+```{r}
+# make data list with z-scored data
+datZ <- list(
+  B = zScore(finfish$Angler_Hand_Measurement_TL_mm),
+  O = zScore(finfish$Algorithm_Estimate_mm), 
+  A = zScore(finfish$Adjusted_Estimate_mm),
+  FishID = finfish$FishID.b,  
+  AnglerID = finfish$AnglerNumber
+)
+
+dat <- list(
+  B = finfish$Angler_Hand_Measurement_TL_mm,
+  O = finfish$Algorithm_Estimate_mm, 
+  A = finfish$Adjusted_Estimate_mm,
+  FishID = finfish$FishID.b,  
+  AnglerID = finfish$AnglerNumber
+)
+
+
+# fit model
+M2 <- ulam(
+  alist(
+    TrueSize[FishID] ~ dnorm(0, 400),
+    B ~ dnorm(TrueSize[FishID], Bsig), # board measurements are distributed with some bias around the true measurement of a fish 
+    O ~ dnorm(TrueSize[FishID] + O_Bias, Osig), # original Poseidon estimates are distributed with some bias around the true measurement of a fish
+    A ~ dnorm(TrueSize[FishID] + A_Bias, Asig), # adjusted Poseidon estimates are distributed with some bias around the true measurement of a fish
+    
+    # define bias parameters
+    O_Bias ~ dnorm(0, 200), 
+    A_Bias ~ dnorm(0, 200), 
+    
+    # variance priors
+    Bsig ~ dexp(1),
+    Osig ~ dexp(1),
+    Asig ~ dexp(1)
+  ), data = dat, chains = 4 
+)
+
+
+# sample from the posterior
+PostM2 <- extract.samples(M2, n = 10000)
+
+
+# extract bias terms across all Anglers and convert from z-score to mm
+M2.bias <- data.frame(
+  PostM2$O_Bias,
+  PostM2$A_Bias
+)
+
+# calculate MAP and 95% HPDI for bias terms 
+
+# MAP
+round(chainmode(PostM2$O_Bias), digits = 5)*sd(finfish$Angler_Hand_Measurement_TL_mm) # O_bias = -0.108 mm
+round(chainmode(PostM2$A_Bias), digits = 5)*sd(finfish$Angler_Hand_Measurement_TL_mm) # A_bias = 0.139 mm
+
+
+# 95% HPDI
+round(HPDI(PostM2$O_Bias, prob = 0.95), digits = 5)*sd(finfish$Angler_Hand_Measurement_TL_mm) # O_Bias = [-4.941  5.270]
+round(HPDI(PostM2$A_Bias, prob = 0.95), digits = 5)*sd(finfish$Angler_Hand_Measurement_TL_mm) # BiasHat_A = [-2.153  2.317]
+
+
+# Bias plot
+Names <- c("Original Estimate", "Adjusted Estimate")
+names(M2.bias) <- Names
+M2.bias <- melt(M2.bias)
+names2 <- c("Measurement", "Bias")
+names(M2.bias) <- names2
+# make plot that overlays posterior densities of bias estimates
+cols <- c("gray", "red")
+BiasedPlot = ggplot(data = M2.bias, aes(x=Bias, fill=Measurement)) +
+  geom_density(alpha=.25) +
+  labs(y= "Density", x = "Posterior Estimate of Measurement Bias (mm)") +
+  scale_fill_manual(values = cols) +
+  theme_bw()
+  
+BiasedPlot + theme(plot.title = element_text(hjust = 0.5))
+
+
+# Variance Plot
+M2.var <- data.frame(
+  PostM2$Osig,
+  PostM2$Asig,
+  PostM2$Bsig
+)
+
+Names <- c("Original Estimate", "Adjusted Estimate", "Hand Measurement")
+names(M2.var) <- Names
+M2.var <- melt(M2.var)
+names2 <- c("Measurement", "Variance")
+names(M2.var) <- names2
+
+cols <- c("gray", "red", "lightblue")
+
+# create density plots of variance estimates across fisheries
+M2.var_plot = ggplot(data = M2.var, aes(x=Variance, fill=Measurement)) +
+  geom_density(alpha=0.5) +
+  labs(y= "Density", x = "Posterior Estimates of Measurement Variance") +
+  scale_fill_manual(values = cols) + 
+  theme_bw()
+
+var.plot <- M2.var_plot + theme(plot.title = element_text(hjust = 0.5))
+var.plot
+VarBias_Plot <- ggarrange(M2.var_plot, BiasedPlot, nrow = 2, ncol = 1)
+
+VarBias_Plot
+```
+
+
+Posterior Predictive Check with FishID.b # 16 (TagID 20792)
+```{r}
+# sample from M2 posterior
+PostM2 <- extract.samples(M2, n = 10000)
+
+str(PostM2)
+
+# draw samples from true size
+TS.sim <- PostM2$TrueSize[, 16]
+# draw samples from O_Bias Estimate
+OBias.sim <- PostM2$O_Bias
+# draw samples from Osig
+Osig.sim <- PostM2$Osig
+drawsFunc <- function(x) {
+  result <- rnorm(1, 0, x)
+  return(result)
+}
+ObiasRandomDraws <- apply(Osig.sim, 1, drawsFunc)
+simDat.Original <- TS.sim + OBias.sim + ObiasRandomDraws
+Fish16 <- subset(finfish, FishID.b==16)
+
+plot(hist(zScore(Fish16$Algorithm_Estimate_mm), breaks=3), xlim = c(-3, 3), ylim = c(0, 5))
+lines(density(simDat.Original), col="red", xlim = c(-3, 3), ylim = c(0, 5))
+```
+
+
+
+test M2 with simulated data
+```{r}
+# simulate original algorithm, adjusted, and board measurements
+Original <- rnorm(299, 300, 80) + rnorm(299, 50, 10)
+Adjusted <- rnorm(299, 300, 70) + rnorm(299, 30, 10)
+Board <- rnorm(299, 300, 50)
+
+OBias <- rnorm(299, 50, 10)
+ABias <- rnorm(299, 30, 10)
+BBias <- rnorm(299, 0, 5)
+
+plot(density(OBias), col = "black", xlim = c(-50, 100), ylim=c(0,0.2))
+lines(density(ABias), col = "red", xlim = c(-50, 100), ylim=c(0,0.2))
+lines(density(BBias), col = "blue", xlim = c(-50, 100), ylim=c(0,0.2))
+legend("topright", c("Original Bias", "Adjusted Bias", "Board Bias"),
+       col =c("black","red", "blue"), lty=1)
+
+
+# first z-score these measurements then put them into their own list
+simDat <- list(
+  simB = zScore(Board),
+  simO = zScore(Original),
+  simA = zScore(Adjusted),
+  FishID = finfish$FishID.b,
+  AnglerID = finfish$AnglerID
+)
+
+# fit model using simulated data
+M2S <- ulam(
+  alist(
+    TrueSize[FishID] ~ dnorm(0, 2),
+    simB ~ dnorm(TrueSize[FishID], Bsig), 
+    simO ~ dnorm(TrueSize[FishID] + O_Bias, Osig), 
+    simA ~ dnorm(TrueSize[FishID] + A_Bias, Asig), 
+    O_Bias ~ dnorm(0, 2), 
+    A_Bias ~ dnorm(0, 2), 
+    Bsig ~ dexp(1),
+    Osig ~ dexp(1),
+    Asig ~ dexp(1)
+  ), data = simDat, chains = 4 
+)
+
+# sample from posterior
+simPost <- extract.samples(M2S, n = 10000)
+
+OBias.post <- simPost$O_Bias
+ABias.post <- simPost$A_Bias
+
+OBias.prior <-rnorm(1000, 0, 2)
+  
+plot(density(zScore(OBias)), col = "black", ylim = c(0,5), main = "Original Bias Estimates")
+lines(density(OBias.prior), col = "blue", ylim = c(0,5))
+lines(density(OBias.post), col = "red", ylim = c(0,5))
+legend("topright", c("Raw Data", "Prior", "Posterior"),
+       col =c("black", "blue", "red"), lty=1)
+
+
+round(chainmode(simPost$O_Bias), digits = 3)*sd(Board) # O_Bias = -0.018
+round(chainmode(simPost$A_Bias), digits = 3)*sd(Board) # A_Bias = -0.004
+
+
+
+
+```
+
+
+
+
+All Fisheries Models: 
+
+This first model characterizes Total Error across all fisheries 
+
+```{r}
+# import data for all fisheries and only include yes data
+abalone <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/AbaloneCleanedJanuary2023.csv")
+abalone <- subset(abalone, Include == "yes")
+
+# this finfish data has been updated to incorporate modeled lengths 
+finfish <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/finfish_model_lengths.csv")
+
+lobster <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/CaliforniaSpinyLobster_Cleaned_Jan2023.csv")
+lobster <- subset(lobster, Include == "yes")
+
+penshell <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/Penshell_Cleaned_January2023.csv")
+penshell <- subset(penshell, Included == "yes")
+penshell <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+# make list
+all_fisheries_list <- list(
+  AbaloneOD = abalone$Algorithm_Total_Error_mm,
+  AbaloneAD = abalone$Adjusted_Total_Error_mm,
+  FinfishOD = finfish$New_Algorithm_Total_Error_mm,
+  FinfishAD = finfish$New_Adjusted_Total_Error_mm,
+  LobsterOD = lobster$Algorithm_Total_Error_mm,
+  LobsterAD = lobster$Adjusted_Total_Error_mm,
+  PenshellOD = penshell$Algorithm_Total_Error_mm,
+  PenshellAD = penshell$Adjusted_Total_Error_mm)
+
+
+model.all <- ulam(
+  alist(
+    # abalone
+    AbaloneOD ~ dnorm(mu_AOD, sig_AOD),
+    AbaloneAD ~ dnorm(mu_AAD, sig_AAD),
+    mu_AOD ~ dnorm(0, 2),
+    mu_AAD ~ dnorm(0, 2),
+    sig_AOD ~ dexp(1),
+    sig_AAD ~ dexp(1),
+    
+    # finfish
+    FinfishOD ~ dnorm(mu_FOD, sig_FOD),
+    FinfishAD ~ dnorm(mu_FAD, sig_FAD),
+    mu_FOD ~ dnorm(0, 2),
+    mu_FAD ~ dnorm(0, 2),
+    sig_FOD ~ dexp(1),
+    sig_FAD ~ dexp(1),
+    
+    # lobster
+    LobsterOD ~ dnorm(mu_LOD, sig_LOD),
+    LobsterAD ~ dnorm(mu_LAD, sig_LAD),
+    mu_LOD ~ dnorm(0, 2),
+    mu_LAD ~ dnorm(0, 2),
+    sig_LOD ~ dexp(1),
+    sig_LAD ~ dexp(1),
+    
+    # penshell
+    PenshellOD ~ dnorm(mu_POD, sig_POD),
+    PenshellAD ~ dnorm(mu_PAD, sig_PAD),
+    mu_POD ~ dnorm(0, 2),
+    mu_PAD ~ dnorm(0, 2),
+    sig_POD ~ dexp(1),
+    sig_PAD ~ dexp(1)
+    
+  ), data = all_fisheries_list, chains = 4)
+
+
+# extract samples from posterior
+Post.all <- extract.samples(model.all, n=10000)
+
+
+
+# calculate MAP and 95% HPDI for each error parameter estimate
+
+# abalone MAP
+round(chainmode(Post.all$mu_AOD), digits = 2) # mu_AOD = 13.92
+round(chainmode(Post.all$mu_AAD), digits = 2) # mu_AAD = -1.48
+# abalone 95% HPDI
+round(HPDI(Post.all$mu_AOD, prob = 0.95), digits = 2) # mu_AOD = [11.54, 16.52] 
+round(HPDI(Post.all$mu_AAD, prob = 0.95), digits = 2) # mu_AOD = [-2.58, -0.51]
+
+
+# finfish MAP
+round(chainmode(Post.all$mu_FOD), digits = 2) # mu_FOD = 8.09
+round(chainmode(Post.all$mu_FAD), digits = 2) # mu_FAD = 24.94
+# finfish 95% HPDI
+round(HPDI(Post.all$mu_FOD, prob = 0.95), digits = 2) # mu_FOD = [4.82, 11.15 ] 
+round(HPDI(Post.all$mu_FAD, prob = 0.95), digits = 2) # mu_FOD = [22.08, 27.19]
+
+
+# lobster MAP
+round(chainmode(Post.all$mu_LOD), digits = 2) # mu_LOD = 14.23
+round(chainmode(Post.all$mu_LAD), digits = 2) # mu_LAD = 1.63
+# lobster 95% HPDI
+round(HPDI(Post.all$mu_LOD, prob = 0.95), digits = 2) # mu_LOD = [12.21, 15.74] 
+round(HPDI(Post.all$mu_LAD, prob = 0.95), digits = 2) # mu_LOD = [1.05, 2.29]
+
+
+# penshell MAP
+round(chainmode(Post.all$mu_POD), digits = 2) # mu_POD = 3.42
+round(chainmode(Post.all$mu_PAD), digits = 2) # mu_PAD = 1.48
+# lobster 95% HPDI
+round(HPDI(Post.all$mu_POD, prob = 0.95), digits = 2) # mu_POD = [2.95, 4.10] 
+round(HPDI(Post.all$mu_PAD, prob = 0.95), digits = 2) # mu_POD = [1.02, 1.93]
+```
+
+
+
+this second model is the same as the first model but examines percent error
+
+
+```{r}
+# import data for all fisheries and only include yes data
+abalone <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/AbaloneCleanedJanuary2023.csv")
+abalone <- subset(abalone, Include == "yes")
+
+# this finfish data has been updated to incorporate modeled lengths 
+finfish <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/finfish_model_lengths.csv")
+
+lobster <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/CaliforniaSpinyLobster_Cleaned_Jan2023.csv")
+lobster <- subset(lobster, Include == "yes")
+
+penshell <- read.csv("~/Desktop/SIO/Research/Poseidon Project/Final Analysis/Final Data/Fishery-Specific Data/csv/Penshell_Cleaned_January2023.csv")
+penshell <- subset(penshell, Included == "yes")
+penshell <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+# make list
+all_fisheries_list.percent <- list(
+  AbaloneOD = abalone$Algorithm_Percent_Error,
+  AbaloneAD = abalone$Adjusted_Percent_Error,
+  FinfishOD = finfish$New_Algorithm_Percent_Error,
+  FinfishAD = finfish$New_Adjusted_Percent_Error,
+  LobsterOD = lobster$Algorithm_Percent_Error,
+  LobsterAD = lobster$Adjusted_Percent_Error,
+  PenshellOD = penshell$Algorithm_Percent_Error,
+  PenshellAD = penshell$Adjusted_Percent_Error)
+
+
+model.all <- ulam(
+  alist(
+    # abalone
+    AbaloneOD ~ dnorm(mu_AOD, sig_AOD),
+    AbaloneAD ~ dnorm(mu_AAD, sig_AAD),
+    mu_AOD ~ dnorm(0, 2),
+    mu_AAD ~ dnorm(0, 2),
+    sig_AOD ~ dexp(1),
+    sig_AAD ~ dexp(1),
+    
+    # finfish
+    FinfishOD ~ dnorm(mu_FOD, sig_FOD),
+    FinfishAD ~ dnorm(mu_FAD, sig_FAD),
+    mu_FOD ~ dnorm(0, 2),
+    mu_FAD ~ dnorm(0, 2),
+    sig_FOD ~ dexp(1),
+    sig_FAD ~ dexp(1),
+    
+    # lobster
+    LobsterOD ~ dnorm(mu_LOD, sig_LOD),
+    LobsterAD ~ dnorm(mu_LAD, sig_LAD),
+    mu_LOD ~ dnorm(0, 2),
+    mu_LAD ~ dnorm(0, 2),
+    sig_LOD ~ dexp(1),
+    sig_LAD ~ dexp(1),
+    
+    # penshell
+    PenshellOD ~ dnorm(mu_POD, sig_POD),
+    PenshellAD ~ dnorm(mu_PAD, sig_PAD),
+    mu_POD ~ dnorm(0, 2),
+    mu_PAD ~ dnorm(0, 2),
+    sig_POD ~ dexp(1),
+    sig_PAD ~ dexp(1)
+    
+  ), data = all_fisheries_list.percent, chains = 4)
+
+
+# extract samples from posterior
+Post.all <- extract.samples(model.all, n=10000)
+
+
+
+# calculate MAP and 95% HPDI for each error parameter estimate
+
+# abalone MAP
+round(chainmode(Post.all$mu_AOD), digits = 2) # mu_AOD = 9.28%
+round(chainmode(Post.all$mu_AAD), digits = 2) # mu_AAD = -0.60%
+
+
+
+# finfish MAP
+round(chainmode(Post.all$mu_FOD), digits = 2) # mu_FOD = 7.1%
+round(chainmode(Post.all$mu_FAD), digits = 2) # mu_FAD = 11.58%
+
+
+
+# lobster MAP
+round(chainmode(Post.all$mu_LOD), digits = 2) # mu_LOD = 14.52%
+round(chainmode(Post.all$mu_LAD), digits = 2) # mu_LAD = 1.58%
+
+
+
+# penshell MAP
+round(chainmode(Post.all$mu_POD), digits = 2) # mu_POD = 2.89%
+round(chainmode(Post.all$mu_PAD), digits = 2) # mu_PAD = 1.3%
+
+```
+
+Create violin plot that displays length estimate error across fisheries for both total error and percent error
+
+```{r}
+library("vioplot")
+
+penshell.edited <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+colors <- c("gray", "red", "gray", "red", "gray", "red", "gray", "red")
+
+
+
+# total error plot
+TE.violin.plot <- vioplot(
+  abalone$Algorithm_Total_Error_mm,
+  abalone$Adjusted_Total_Error_mm,
+  finfish$New_Algorithm_Total_Error_mm, 
+  finfish$New_Adjusted_Total_Error_mm, 
+  lobster$Algorithm_Total_Error_mm,
+  lobster$Adjusted_Total_Error_mm,
+  penshell.edited$Algorithm_Total_Error_mm,
+  penshell.edited$Adjusted_Total_Error_mm,
+  col = colors,
+  xlab = "Fishery",
+  ylab = "Total Error (mm)",
+  ylim = c(-300, 200),
+  xaxt = "n"
+  )
+
+mtext("Abalone", side = 1, at = 1.5, line = 1)
+mtext("Finfish", side = 1, at = 3.5, line = 1)
+mtext("Lobster", side = 1, at = 5.5, line = 1)
+mtext("Penshell", side = 1, at = 7.5, line = 1)
+mtext("A", side = 3, at = 1, line = 1, cex =2)
+
+legend("bottomright", legend = c("Original Software Estimate", "User-Adjusted Estimate"), fill = c("gray", "red"), cex = 1)
+
+abline(a=0, b=0, lty=2)
+
+```
+
+```{r}
+# percent error plot
+PE.violin.plot <- vioplot(
+  abalone$Algorithm_Percent_Error,
+  abalone$Adjusted_Percent_Error,
+  finfish$New_Algorithm_Percent_Error, 
+  finfish$New_Adjusted_Percent_Error, 
+  lobster$Algorithm_Percent_Error,
+  lobster$Adjusted_Percent_Error,
+  penshell.edited$Algorithm_Percent_Error,
+  penshell.edited$Adjusted_Percent_Error,
+  col = colors,
+  xlab = "Fishery",
+  ylab = "Percent Error (%)",
+  ylim = c(-150, 160),
+  xaxt = "n"
+  )
+
+mtext("Abalone", side = 1, at = 1.5, line = 1)
+mtext("Finfish", side = 1, at = 3.5, line = 1)
+mtext("Lobster", side = 1, at = 5.5, line = 1)
+mtext("Penshell", side = 1, at = 7.5, line = 1)
+mtext("B", side = 3, at = 1, line = 1, cex =2)
+
+legend("bottomright", legend = c("Original Software Estimate", "User-Adjusted Estimate"), fill = c("gray", "red"), cex = 1)
+
+abline(a=0, b=0, lty=2)
+```
+
+
+Create violin plots that display total error across users for abalone, finfish and penshell
+
+abalone
+```{r}
+library(vioplot)
+library(ggplot2)
+
+ao <- ggplot(abalone, aes(x=User_ID, y=Algorithm_Total_Error_mm, group = User_ID)) + 
+  geom_violin(col="gray", fill="gray") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Total Error (mm)")+
+  ggtitle("Abalone (n = 13)") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+aop <- ao + geom_boxplot(width=0.2, outlier.shape = NA) + theme(axis.text.x = element_blank(),
+           axis.ticks.x = element_blank())
+
+aop
+```
+
+```{r}
+aa <- ggplot(abalone, aes(x=User_ID, y=Adjusted_Total_Error_mm, group = User_ID)) + 
+  geom_violin(col="red", fill="red") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Total Error (mm)")+
+  #ggtitle("Abalone") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+aap <- aa + geom_boxplot(width=0.2, outlier.shape = NA) + theme(axis.text.x = element_blank(),
+           axis.ticks.x = element_blank())
+
+aap
+```
+
+finfish
+```{r}
+
+fo <- ggplot(finfish, aes(x=AnglerNumber, y=New_Algorithm_Total_Error_mm, group = AnglerNumber)) + 
+  geom_violin(col="gray", fill="gray") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Total Error (mm)")+
+  ggtitle("Finfish (n = 9)") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+fop <- fo + geom_boxplot(width=0.2, outlier.shape = NA) + theme(axis.text.x = element_blank(),
+           axis.ticks.x = element_blank())
+
+fop
+```
+
+
+```{r}
+fa <- ggplot(finfish, aes(x=AnglerNumber, y=New_Adjusted_Total_Error_mm, group = AnglerNumber)) + 
+  geom_violin(col="red", fill="red") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Total Error (mm)")+
+  #ggtitle("Finfish") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+fap <- fa + geom_boxplot(width=0.2, outlier.shape = NA) + theme(axis.text.x = element_blank(),
+           axis.ticks.x = element_blank())
+
+fap
+
+```
+
+
+penshell
+
+```{r}
+penshell.edited <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+po <- ggplot(penshell.edited, aes(x=User_ID, y=Algorithm_Total_Error_mm, group = User_ID)) + 
+  geom_violin(col="gray", fill="gray") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Total Error (mm)")+
+  ggtitle("Pen Shell (n = 25)") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+pop <- po + geom_boxplot(width=0.2, outlier.shape = NA) + theme(axis.text.x = element_blank(),
+           axis.ticks.x = element_blank())
+
+pop
+
+```
+
+
+```{r}
+penshell.edited <- subset(penshell, penshell$Algorithm_Estimate_mm < 500)
+
+pa <- ggplot(penshell.edited, aes(x=User_ID, y=Adjusted_Total_Error_mm, group = User_ID)) + 
+  geom_violin(col="red", fill="red") +
+  coord_cartesian(ylim=c(-250, 175)) +
+  xlab("Software User ID") +
+  ylab("Total Error (mm)")+
+  #ggtitle("Penshell") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+pap <- pa + geom_boxplot(width=0.2, outlier.shape = NA) + theme(axis.text.x = element_blank(),
+           axis.ticks.x = element_blank())
+
+pap 
+```
+
+
+```{r}
+library(ggpubr)
+
+user_figure <- ggarrange(aop, fop, pop,
+                         aap, fap, pap,
+          nrow=2,
+          ncol=3)
+
+user_figure
+
+annotate_figure(user_figure, top = text_grob("Size Estimate Variability Across Users", 
+               face = "bold", size = 14))
+```
+
+
+
+
+For finfish, create violin plot that shows how original/adjusted Poseidon Total Error compares to Angler Total Error
+```{r}
+library(vioplot)
+library(reshape)
+library(reshape2)
+library(ggplot2)
+
+finfish$Angler_Total_Error_mm <- finfish$Angler_Hand_Measurement_TL_mm - finfish$Scientist_Hand_Measured_TL_mm
+
+vioplot(
+  finfish$Algorithm_Total_Error_mm,
+  finfish$Adjusted_Total_Error_mm,
+  finfish$Angler_Total_Error_mm
+)
+
+
+TE.data <- data.frame(
+  finfish$Algorithm_Total_Error_mm,
+  finfish$Adjusted_Total_Error_mm,
+  finfish$Angler_Total_Error_mm)
+  
+  
+  # get data into required format for plotting
+Names <- c("Original Estimate", "Adjusted Estimate", "Hand Measurement")
+names(TE.data) <- Names
+TE.data <- melt(TE.data)
+names2 <- c("MeasurementType", "TotalError")
+names(TE.data) <- names2
+
+
+# make violoin plot that compares original, adjusted and hand measurements
+cols <- c("gray", "red", "lightblue")
+
+
+
+
+ComparisonPlot <- ggplot(TE.data, aes(x=MeasurementType, y=TotalError, fill = MeasurementType)) + 
+  geom_violin(alpha=0.5) +
+  xlab("Length Measurement Type") +
+  ylab("Total Error (mm)") +
+  geom_hline(yintercept=0,linetype=2) +
+  theme_bw()
+
+  
+plot <- ComparisonPlot + 
+  scale_fill_manual(values=c("darkgray", "red", "lightblue")) +
+  theme(legend.title=element_blank())
+plot
+
+library(ggpubr)
+ggarrange(plot, var.plot, nrow = 2, ncol = 1)
+
+figure
+```
